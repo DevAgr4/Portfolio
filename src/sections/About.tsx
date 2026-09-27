@@ -4,472 +4,403 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
 export default function About() {
-  const [visible, setVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
+  const [visible, setVisible] = useState(false);
+  const [activeTab, setActiveTab] = useState<"story" | "code">("story");
+  const [copied, setCopied] = useState(false);
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
 
+  // ── Intersection Observer for Entrance Animation ──
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
-      { threshold: 0.2 }
+      ([entry]) => {
+        if (entry.isIntersecting) setVisible(true);
+      },
+      { threshold: 0.15 }
     );
+
     if (sectionRef.current) observer.observe(sectionRef.current);
+
     return () => observer.disconnect();
   }, []);
 
+  // ── Cursor Parallax Tracking ──
+  const handleSectionMove = (e: React.MouseEvent<HTMLElement>) => {
+    const rect = sectionRef.current?.getBoundingClientRect();
+
+    if (!rect) return;
+
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+
+    setTilt({ x, y });
+  };
+
+  const resetSection = () => setTilt({ x: 0, y: 0 });
+
+  // ── 3D Tilt for Interactive Elements ──
+  const handleTilt = (
+    e: React.MouseEvent<HTMLElement>,
+    max = 12,
+    lift = 1.04
+  ) => {
+    const el = e.currentTarget;
+    const rect = el.getBoundingClientRect();
+
+    const px = (e.clientX - rect.left) / rect.width - 0.5;
+    const py = (e.clientY - rect.top) / rect.height - 0.5;
+
+    el.style.transform = `perspective(600px) rotateY(${
+      px * max
+    }deg) rotateX(${-py * max}deg) scale(${lift})`;
+  };
+
+  const resetTilt = (e: React.MouseEvent<HTMLElement>) => {
+    e.currentTarget.style.transform =
+      "perspective(600px) rotateY(0deg) rotateX(0deg) scale(1)";
+  };
+
+  // ── Copy Email ──
+  const copyEmail = () => {
+    navigator.clipboard.writeText("devishaagrawal@gmail.com");
+    setCopied(true);
+
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   const traits = [
-    { icon: "✦", label: "Clean Code",       desc: "Readable, maintainable, scalable" },
-    { icon: "◈", label: "Modern Design",     desc: "Pixel-perfect, aesthetic UI" },
-    { icon: "⟡", label: "Performance",       desc: "Fast, optimized experiences" },
-    { icon: "◎", label: "Accessibility",     desc: "Inclusive by default" },
+    {
+      icon: "⚡",
+      label: "Full-Stack Craft",
+      desc: "React, Next.js 15 & scalable Node backends",
+    },
+    {
+      icon: "✨",
+      label: "Motion & Polish",
+      desc: "Silky 60fps micro-interactions & fluid UI",
+    },
+    {
+      icon: "🚀",
+      label: "Performance First",
+      desc: "Sub-second load times & 99+ Lighthouse",
+    },
+    {
+      icon: "🔮",
+      label: "AI & Innovation",
+      desc: "Modern LLMs, agents & generative tooling",
+    },
   ];
 
-  const stack = ["React", "Next.js", "TypeScript", "Tailwind", "Figma", "Node.js"];
+  const stack = [
+    "TypeScript",
+    "React",
+    "Next.js",
+    "TailwindCSS",
+    "Node.js",
+    "Python / AI",
+    "PostgreSQL",
+    "Framer Motion",
+    "Git",
+    "Figma",
+  ];
 
   return (
-    <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap');
+    <section
+      id="about"
+      ref={sectionRef}
+      onMouseMove={handleSectionMove}
+      onMouseLeave={resetSection}
+      className="relative bg-[#f8f7f4] text-[#121214] px-6 md:px-14 py-20 md:py-28 overflow-hidden font-['Outfit',sans-serif] border-t border-[#121214]/8"
+    >
+      {/* Background Dot Matrix Pattern */}
+      <div
+        className="absolute inset-0 opacity-[0.45] pointer-events-none"
+        style={{
+          backgroundImage:
+            "radial-gradient(#121214 0.75px, transparent 0.75px)",
+          backgroundSize: "28px 28px",
+        }}
+      />
 
-        .about-section {
-          position: relative;
-          min-height: 100vh;
-          display: flex;
-          align-items: stretch;
-          overflow: hidden;
-          background: linear-gradient(155deg, #fff5f7 0%, #fdf6f0 40%, #fef9fb 70%, #fff0f4 100%);
-        }
+      <div className="max-w-6xl mx-auto relative z-10 grid md:grid-cols-12 gap-12 lg:gap-16 items-center">
+        {/* ── Left Side: Photo with 3D Tilt, Floating Badges & Rotating Stamp ── */}
+        <div className="md:col-span-5 relative flex justify-center">
+          <div
+            className="relative w-[280px] sm:w-[330px] md:w-[360px] transition-transform duration-200 ease-out will-change-transform"
+            style={{
+              transform: `perspective(1000px) rotateY(${
+                tilt.x * 10
+              }deg) rotateX(${-tilt.y * 10}deg)`,
+              transformStyle: "preserve-3d",
+            }}
+          >
+            {/* Ambient Shadow */}
+            <div className="absolute inset-0 bg-gradient-to-br from-[#8b5cf6]/15 via-[#ec4899]/15 to-transparent rounded-3xl blur-2xl transform rotate-2 scale-95" />
 
-        /* ── Left: image flush to background ── */
-        .about-image-side {
-          position: relative;
-          width: 48%;
-          flex-shrink: 0;
-          overflow: hidden;
-        }
-
-        .about-img {
-          position: absolute;
-          inset: 0;
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          object-position: center top;
-          display: block;
-        }
-
-        /* Soft right-edge fade so image bleeds into the glass panel */
-        .about-image-side::after {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(
-            to right,
-            transparent 55%,
-            rgba(253,246,240,0.55) 78%,
-            rgba(253,246,240,0.92) 100%
-          );
-          pointer-events: none;
-        }
-
-        /* Subtle top/bottom fade */
-        .about-image-side::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          z-index: 1;
-          background:
-            linear-gradient(to bottom, rgba(255,245,247,0.5) 0%, transparent 12%),
-            linear-gradient(to top,    rgba(255,240,244,0.5) 0%, transparent 12%);
-          pointer-events: none;
-        }
-
-        /* ── Right: glass card ── */
-        .about-glass-side {
-          flex: 1;
-          display: flex;
-          align-items: center;
-          padding: 80px 56px 80px 40px;
-          position: relative;
-          z-index: 10;
-        }
-
-        .glass-panel {
-          background: rgba(255, 250, 252, 0.55);
-          backdrop-filter: blur(22px) saturate(1.5);
-          -webkit-backdrop-filter: blur(22px) saturate(1.5);
-          border: 1px solid rgba(244, 184, 200, 0.22);
-          border-radius: 28px;
-          padding: 52px 44px;
-          width: 100%;
-          max-width: 520px;
-          box-shadow:
-            0 8px 48px rgba(192,68,92,0.07),
-            inset 0 1px 0 rgba(255,255,255,0.7);
-          opacity: 0;
-          transform: translateX(40px);
-          transition: opacity 0.9s cubic-bezier(0.4,0,0.2,1) 0.2s,
-                      transform 0.9s cubic-bezier(0.4,0,0.2,1) 0.2s;
-        }
-
-        .glass-panel.visible {
-          opacity: 1;
-          transform: translateX(0);
-        }
-
-        /* Section label */
-        .about-label {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          font-family: 'DM Sans', sans-serif;
-          font-size: 11px;
-          font-weight: 500;
-          letter-spacing: 0.18em;
-          text-transform: uppercase;
-          color: #c0445c;
-          margin-bottom: 20px;
-          opacity: 0;
-          transform: translateY(12px);
-          transition: opacity 0.6s 0.4s both, transform 0.6s 0.4s both;
-        }
-
-        .about-label.visible { opacity: 1; transform: translateY(0); }
-
-        .label-line {
-          width: 28px;
-          height: 1px;
-          background: #c0445c;
-          border-radius: 1px;
-        }
-
-        /* Heading */
-        .about-heading {
-          font-family: 'Cormorant Garamond', serif;
-          font-size: clamp(36px, 4vw, 56px);
-          font-weight: 600;
-          line-height: 1.08;
-          color: #2e1420;
-          letter-spacing: -0.02em;
-          margin-bottom: 6px;
-          opacity: 0;
-          transform: translateY(16px);
-          transition: opacity 0.7s 0.5s both, transform 0.7s 0.5s both;
-        }
-
-        .about-heading.visible { opacity: 1; transform: translateY(0); }
-        .about-heading em { font-style: italic; color: #c0445c; }
-
-        /* Name accent */
-        .about-name {
-          font-family: 'Cormorant Garamond', serif;
-          font-size: clamp(18px, 2.2vw, 26px);
-          font-weight: 400;
-          font-style: italic;
-          color: #b07080;
-          margin-bottom: 24px;
-          display: block;
-          opacity: 0;
-          transition: opacity 0.6s 0.6s both;
-        }
-
-        .about-name.visible { opacity: 1; }
-
-        /* Divider */
-        .about-divider {
-          width: 48px;
-          height: 1.5px;
-          background: linear-gradient(to right, #c0445c, transparent);
-          border-radius: 1px;
-          margin-bottom: 24px;
-          opacity: 0;
-          transition: opacity 0.6s 0.65s both, width 0.8s 0.65s both;
-        }
-
-        .about-divider.visible { opacity: 1; width: 48px; }
-
-        /* Bio text */
-        .about-bio {
-          font-family: 'DM Sans', sans-serif;
-          font-size: clamp(14px, 1.5vw, 16px);
-          font-weight: 300;
-          color: #7a4858;
-          line-height: 1.85;
-          margin-bottom: 32px;
-          opacity: 0;
-          transform: translateY(12px);
-          transition: opacity 0.7s 0.7s both, transform 0.7s 0.7s both;
-        }
-
-        .about-bio.visible { opacity: 1; transform: translateY(0); }
-
-        /* Traits grid */
-        .traits-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 12px;
-          margin-bottom: 32px;
-          opacity: 0;
-          transform: translateY(12px);
-          transition: opacity 0.7s 0.85s both, transform 0.7s 0.85s both;
-        }
-
-        .traits-grid.visible { opacity: 1; transform: translateY(0); }
-
-        .trait-card {
-          background: rgba(255,255,255,0.5);
-          border: 1px solid rgba(192,68,92,0.12);
-          border-radius: 14px;
-          padding: 14px 16px;
-          transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
-        }
-
-        .trait-card:hover {
-          background: rgba(255,255,255,0.75);
-          border-color: rgba(192,68,92,0.28);
-          transform: translateY(-2px);
-        }
-
-        .trait-icon {
-          font-size: 16px;
-          color: #c0445c;
-          margin-bottom: 6px;
-          display: block;
-        }
-
-        .trait-label {
-          font-family: 'DM Sans', sans-serif;
-          font-size: 13px;
-          font-weight: 500;
-          color: #2e1420;
-          display: block;
-          margin-bottom: 2px;
-        }
-
-        .trait-desc {
-          font-family: 'DM Sans', sans-serif;
-          font-size: 11.5px;
-          font-weight: 300;
-          color: #a07080;
-          display: block;
-        }
-
-        /* Stack pills */
-        .stack-row {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 8px;
-          margin-bottom: 36px;
-          opacity: 0;
-          transform: translateY(12px);
-          transition: opacity 0.7s 1s both, transform 0.7s 1s both;
-        }
-
-        .stack-row.visible { opacity: 1; transform: translateY(0); }
-
-        .stack-pill {
-          font-family: 'DM Sans', sans-serif;
-          font-size: 12px;
-          font-weight: 400;
-          color: #b03555;
-          background: rgba(192,68,92,0.07);
-          border: 1px solid rgba(192,68,92,0.18);
-          padding: 5px 14px;
-          border-radius: 999px;
-          letter-spacing: 0.04em;
-          transition: background 0.2s, border-color 0.2s, transform 0.2s;
-        }
-
-        .stack-pill:hover {
-          background: rgba(192,68,92,0.13);
-          border-color: rgba(192,68,92,0.4);
-          transform: translateY(-1px);
-        }
-
-        /* CTA */
-        .about-cta-row {
-          display: flex;
-          gap: 12px;
-          flex-wrap: wrap;
-          opacity: 0;
-          transform: translateY(12px);
-          transition: opacity 0.7s 1.1s both, transform 0.7s 1.1s both;
-        }
-
-        .about-cta-row.visible { opacity: 1; transform: translateY(0); }
-
-        .btn-primary {
-          font-family: 'DM Sans', sans-serif;
-          font-size: 13.5px;
-          font-weight: 500;
-          color: #fff;
-          background: linear-gradient(135deg, #e07090 0%, #c0445c 100%);
-          padding: 12px 28px;
-          border-radius: 999px;
-          border: none;
-          cursor: pointer;
-          letter-spacing: 0.04em;
-          box-shadow: 0 4px 20px rgba(192,68,92,0.26);
-          transition: transform 0.2s ease, box-shadow 0.2s ease;
-          text-decoration: none;
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-        }
-
-        .btn-primary:hover {
-          transform: translateY(-2px) scale(1.03);
-          box-shadow: 0 8px 28px rgba(192,68,92,0.32);
-        }
-
-        .btn-outline {
-          font-family: 'DM Sans', sans-serif;
-          font-size: 13.5px;
-          font-weight: 400;
-          color: #b03555;
-          background: transparent;
-          padding: 12px 24px;
-          border-radius: 999px;
-          border: 1.5px solid rgba(192,68,92,0.28);
-          cursor: pointer;
-          letter-spacing: 0.04em;
-          transition: background 0.2s, border-color 0.2s, transform 0.2s;
-          text-decoration: none;
-        }
-
-        .btn-outline:hover {
-          background: rgba(192,68,92,0.06);
-          border-color: rgba(192,68,92,0.5);
-          transform: translateY(-2px);
-        }
-
-        /* ── Mobile: stack vertically ── */
-        @media (max-width: 768px) {
-          .about-section {
-            flex-direction: column;
-            min-height: auto;
-          }
-
-          .about-image-side {
-            width: 100%;
-            height: 60vw;
-            max-height: 420px;
-            flex-shrink: 0;
-            position: relative;
-          }
-
-          .about-image-side::after {
-            background: linear-gradient(
-              to bottom,
-              transparent 50%,
-              rgba(253,246,240,0.7) 80%,
-              rgba(253,246,240,0.97) 100%
-            );
-          }
-
-          .about-glass-side {
-            padding: 32px 20px 60px;
-            justify-content: center;
-          }
-
-          .glass-panel {
-            padding: 36px 28px;
-            border-radius: 20px;
-          }
-
-          .traits-grid { grid-template-columns: 1fr 1fr; }
-        }
-
-        @media (max-width: 420px) {
-          .traits-grid { grid-template-columns: 1fr; }
-          .about-cta-row { flex-direction: column; }
-          .btn-primary, .btn-outline { text-align: center; justify-content: center; }
-        }
-      `}</style>
-
-      <section id="about" className="about-section" ref={sectionRef}>
-
-        {/* ── Left: your photo flush to background ── */}
-        <div className="about-image-side">
-          {/*
-            Replace src with your actual image.
-            Put your photo in /public/about.jpg (or .png / .webp).
-            The image fills the entire left half with no frame.
-          */}
-          <Image
-            src="/about.jpg"
-            alt="Portrait photo"
-            fill
-            className="about-img"
-            style={{ objectFit: "cover", objectPosition: "center top" }}
-            priority
-          />
-        </div>
-
-        {/* ── Right: glass intro panel ── */}
-        <div className="about-glass-side">
-          <div className={`glass-panel ${visible ? "visible" : ""}`}>
-
-            {/* Label */}
-            <div className={`about-label ${visible ? "visible" : ""}`}>
-              <span className="label-line" />
-              About Me
+            {/* Photo Card Frame */}
+            <div
+              className="relative rounded-3xl overflow-hidden border border-[#121214]/10 bg-white/70 backdrop-blur-md p-2 shadow-[0_20px_45px_-10px_rgba(18,18,20,0.15)]"
+              style={{ transform: "translateZ(25px)" }}
+            >
+              <Image
+                src="/about.jpg"
+                alt="About Devisha Agrawal"
+                width={360}
+                height={450}
+                className="w-full h-auto object-cover rounded-2xl select-none pointer-events-none"
+              />
             </div>
 
-            {/* Heading */}
-            <h2 className={`about-heading ${visible ? "visible" : ""}`}>
-              Crafting with <em>passion</em>
-            </h2>
-
-            {/* Your name */}
-            <span className={`about-name ${visible ? "visible" : ""}`}>
-              — Your Name Here
-            </span>
-
-            <div className={`about-divider ${visible ? "visible" : ""}`} />
-
-            {/* Bio */}
-            <p className={`about-bio ${visible ? "visible" : ""}`}>
-              I&apos;m a frontend developer and UI/UX enthusiast who loves turning
-              ideas into elegant, pixel-perfect digital products. With a keen eye
-              for design and a love for clean code, I bridge the gap between
-              beautiful visuals and seamless functionality.
-              <br /><br />
-              When I&apos;m not coding, I&apos;m exploring design trends, experimenting
-              with new technologies, or sketching out my next creative concept.
-            </p>
-
-            {/* Traits */}
-            <div className={`traits-grid ${visible ? "visible" : ""}`}>
-              {traits.map((t) => (
-                <div key={t.label} className="trait-card">
-                  <span className="trait-icon">{t.icon}</span>
-                  <span className="trait-label">{t.label}</span>
-                  <span className="trait-desc">{t.desc}</span>
-                </div>
-              ))}
+            {/* Floating Commits Badge: Top Left */}
+            <div
+              className="absolute -top-4 -left-4 bg-white/90 backdrop-blur-md border border-[#121214]/10 rounded-2xl px-3.5 py-2 shadow-lg flex items-center gap-2 font-mono text-[11px] font-medium"
+              style={{ transform: "translateZ(50px)" }}
+            >
+              <span>⌨️</span>
+              <span className="text-[#121214]">
+                <strong>2.8k+</strong> git commits
+              </span>
             </div>
 
-            {/* Stack */}
-            <div className={`stack-row ${visible ? "visible" : ""}`}>
-              {stack.map((s) => (
-                <span key={s} className="stack-pill">{s}</span>
-              ))}
-            </div>
+            {/* Rotating Stamp Motif */}
+            <div
+              onMouseMove={(e) => handleTilt(e, 18, 1.1)}
+              onMouseLeave={resetTilt}
+              className="absolute -right-6 -bottom-6 w-28 h-28 transition-transform duration-200 ease-out will-change-transform cursor-pointer"
+              style={{
+                transform: "translateZ(60px)",
+                transformStyle: "preserve-3d",
+              }}
+            >
+              <svg
+                viewBox="0 0 120 120"
+                className="w-full h-full animate-spin-slow"
+              >
+                <defs>
+                  <path
+                    id="aboutBadgeCircle"
+                    d="M 60,60 m -46,0 a 46,46 0 1,1 92,0 a 46,46 0 1,1 -92,0"
+                  />
+                </defs>
 
-            {/* CTA */}
-            <div className={`about-cta-row ${visible ? "visible" : ""}`}>
-              <a href="#projects" className="btn-primary">
-                View Projects →
-              </a>
-              <a href="/resume.pdf" target="_blank" className="btn-outline">
-                Download CV
-              </a>
-            </div>
+                <text
+                  fill="#121214"
+                  fontSize="9.5"
+                  fontWeight="600"
+                  letterSpacing="1.8"
+                >
+                  <textPath
+                    href="#aboutBadgeCircle"
+                    startOffset="0%"
+                  >
+                    ✦ READABLE CODE ✦ CRAFTED UI ✦
+                  </textPath>
+                </text>
+              </svg>
 
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="w-12 h-12 rounded-full bg-[#121214] text-white text-[10px] font-mono font-semibold flex items-center justify-center shadow-md">
+                  100%
+                </span>
+              </div>
+            </div>
           </div>
         </div>
 
-      </section>
-    </>
+        {/* ── Right Side: Story & Terminal IDE Card ── */}
+        <div
+          className="md:col-span-7 transition-all duration-700 ease-out"
+          style={{
+            transform: `translate(${tilt.x * -6}px, ${
+              tilt.y * -5
+            }px)`,
+            opacity: visible ? 1 : 0,
+          }}
+        >
+          {/* Card Container */}
+          <div className="bg-white/80 backdrop-blur-md border border-[#121214]/10 rounded-3xl p-6 sm:p-10 shadow-[0_16px_40px_-10px_rgba(18,18,20,0.08)]">
+            {/* Terminal Header Bar with Tab Controls */}
+            <div className="flex items-center justify-between pb-5 border-b border-[#121214]/8 mb-7">
+              <div className="flex items-center gap-2">
+                <span className="w-3 h-3 rounded-full bg-[#f43f5e]" />
+                <span className="w-3 h-3 rounded-full bg-[#eab308]" />
+                <span className="w-3 h-3 rounded-full bg-[#10b981]" />
+
+                <span className="font-mono text-xs text-[#71717a] ml-2">
+                  ~/developer/about.tsx
+                </span>
+              </div>
+
+              {/* Story vs Code Toggle */}
+              <div className="flex bg-[#f3f2ee] p-1 rounded-full border border-[#121214]/8">
+                <button
+                  onClick={() => setActiveTab("story")}
+                  className={`px-3 py-1 text-xs font-mono rounded-full transition-all ${
+                    activeTab === "story"
+                      ? "bg-white text-[#121214] shadow-sm font-semibold"
+                      : "text-[#71717a] hover:text-[#121214]"
+                  }`}
+                >
+                  Story
+                </button>
+
+                <button
+                  onClick={() => setActiveTab("code")}
+                  className={`px-3 py-1 text-xs font-mono rounded-full transition-all ${
+                    activeTab === "code"
+                      ? "bg-white text-[#121214] shadow-sm font-semibold"
+                      : "text-[#71717a] hover:text-[#121214]"
+                  }`}
+                >
+                  bio.ts
+                </button>
+              </div>
+            </div>
+
+            {/* Header / Subtitle */}
+            <div className="font-mono text-xs font-semibold tracking-wider text-[#ec4899] uppercase mb-2">
+              ✦ About Me
+            </div>
+
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#121214] mb-4">
+              Turning complex problems into{" "}
+              <span className="bg-gradient-to-r from-[#ec4899] to-[#8b5cf6] bg-clip-text text-transparent">
+                effortless code.
+              </span>
+            </h2>
+
+            {/* TAB CONTENT: Story View */}
+            {activeTab === "story" ? (
+              <>
+                <p className="text-[#52525b] text-[15px] leading-relaxed mb-8">
+                  I’m a software engineer who loves the sweet spot where{" "}
+                  <strong>bulletproof engineering</strong> meets{" "}
+                  <strong>thoughtful, modern design</strong>. From
+                  structuring scalable backend systems in Next.js and Node,
+                  to tuning 60fps animations in Framer Motion, I build
+                  products that are fast, intuitive, and visually memorable.
+                </p>
+
+                {/* Traits Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mb-8">
+                  {traits.map((t) => (
+                    <div
+                      key={t.label}
+                      onMouseMove={(e) => handleTilt(e, 8, 1.02)}
+                      onMouseLeave={resetTilt}
+                      className="bg-[#faf9f6] border border-[#121214]/8 rounded-2xl p-4 transition-all duration-200 hover:border-[#ec4899]/40 hover:bg-white will-change-transform"
+                      style={{ transformStyle: "preserve-3d" }}
+                    >
+                      <div className="text-xl mb-1.5">{t.icon}</div>
+
+                      <div className="font-semibold text-sm text-[#121214] mb-0.5">
+                        {t.label}
+                      </div>
+
+                      <div className="text-xs text-[#71717a]">
+                        {t.desc}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            ) : (
+              /* TAB CONTENT: Interactive Code View */
+              <div className="bg-[#141416] text-[#e4e4e7] p-5 rounded-2xl font-mono text-xs leading-relaxed mb-8 border border-black/10 overflow-x-auto shadow-inner">
+                <pre>
+                  <code>
+                    <span className="text-[#f43f5e]">const</span>{" "}
+                    <span className="text-[#38bdf8]">
+                      developer
+                    </span>{" "}
+                    = &#123;{"\n"}
+                    {"  "}name:{" "}
+                    <span className="text-[#a7f3d0]">
+                      &quot;Devisha Agrawal&quot;
+                    </span>
+                    ,{"\n"}
+                    {"  "}handle:{" "}
+                    <span className="text-[#a7f3d0]">
+                      &quot;@devishaagrawal&quot;
+                    </span>
+                    ,{"\n"}
+                    {"  "}email:{" "}
+                    <span className="text-[#a7f3d0]">
+                      &quot;devishaagrawal@gmail.com&quot;
+                    </span>
+                    ,{"\n"}
+                    {"  "}stack: [
+                    <span className="text-[#a7f3d0]">
+                      &quot;Next.js 15&quot;
+                    </span>
+                    ,{" "}
+                    <span className="text-[#a7f3d0]">
+                      &quot;TypeScript&quot;
+                    </span>
+                    ,{" "}
+                    <span className="text-[#a7f3d0]">
+                      &quot;Tailwind&quot;
+                    </span>
+                    ],{"\n"}
+                    {"  "}coffeeCup:{" "}
+                    <span className="text-[#fbbf24]">
+                      &quot;Espresso &amp; Oat Milk&quot;
+                    </span>
+                    ,{"\n"}
+                    {"  "}superpower:{" "}
+                    <span className="text-[#a7f3d0]">
+                      &quot;Turning caffeine into clean architecture
+                      ✨&quot;
+                    </span>
+                    ,{"\n"}
+                    {"  "}openForRoles:{" "}
+                    <span className="text-[#818cf8]">true</span>
+                    {"\n"}
+                    &#125;;
+                  </code>
+                </pre>
+              </div>
+            )}
+
+            {/* Stack Pills */}
+            <div className="font-mono text-xs uppercase tracking-wider text-[#71717a] mb-3">
+              Tools &amp; Technologies
+            </div>
+
+            <div className="flex flex-wrap gap-2 mb-8">
+              {stack.map((s) => (
+                <span
+                  key={s}
+                  className="font-mono text-xs px-3 py-1.5 rounded-xl bg-[#f3f2ee] hover:bg-white text-[#121214] border border-[#121214]/10 transition-all hover:border-[#ec4899]/40 hover:-translate-y-0.5 cursor-default"
+                >
+                  {s}
+                </span>
+              ))}
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex flex-wrap items-center gap-4">
+              <a
+                href="#projects"
+                onMouseMove={(e) => handleTilt(e, 8, 1.04)}
+                onMouseLeave={resetTilt}
+                className="bg-[#121214] text-white text-xs font-medium px-6 py-3 rounded-xl shadow-md hover:bg-black transition-all flex items-center gap-2 will-change-transform"
+                style={{ transformStyle: "preserve-3d" }}
+              >
+                <span>View Projects</span>
+                <span>→</span>
+              </a>
+
+              <button
+                onClick={copyEmail}
+                className="font-mono text-xs text-[#52525b] hover:text-[#121214] px-4 py-2.5 rounded-xl border border-[#121214]/10 hover:border-[#121214]/25 transition-all bg-white"
+              >
+                {copied ? "✓ Copied!" : "📋 Copy Email"}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }

@@ -6,93 +6,93 @@ const skillCategories = [
   {
     id: "frontend",
     label: "Frontend",
-    icon: "◈",
-    color: "#c0445c",
-    bg: "rgba(192,68,92,0.08)",
-    border: "rgba(192,68,92,0.25)",
+    icon: "⚡",
+    color: "#ec4899", // Electric Fuchsia
+    bg: "rgba(236, 72, 153, 0.08)",
+    border: "rgba(236, 72, 153, 0.35)",
     skills: [
-      { name: "React",        level: 90 },
-      { name: "Next.js",      level: 88 },
-      { name: "TypeScript",   level: 82 },
-      { name: "Tailwind CSS", level: 92 },
-    ],
-  },
-  {
-    id: "design",
-    label: "Design",
-    icon: "✦",
-    color: "#b05070",
-    bg: "rgba(176,80,112,0.08)",
-    border: "rgba(176,80,112,0.25)",
-    skills: [
-      { name: "Figma",         level: 85 },
-      { name: "Canva",         level: 90 },
-      { name: "UI/UX Design",  level: 78 },
-      { name: "CSS Animation", level: 82 },
-    ],
-  },
-  {
-    id: "ai",
-    label: "AI / ML",
-    icon: "⬡",
-    color: "#8a3055",
-    bg: "rgba(138,48,85,0.08)",
-    border: "rgba(138,48,85,0.25)",
-    skills: [
-      { name: "Python",      level: 80 },
-      { name: "PyTorch",     level: 70 },
-      { name: "TensorFlow",  level: 68 },
-      { name: "Data Analyst",level: 75 },
+      { name: "React 19",     level: 95 },
+      { name: "Next.js 15",   level: 92 },
+      { name: "TypeScript",   level: 88 },
+      { name: "Tailwind CSS", level: 96 },
     ],
   },
   {
     id: "backend",
     label: "Backend",
-    icon: "⟡",
-    color: "#8a4060",
-    bg: "rgba(138,64,96,0.08)",
-    border: "rgba(138,64,96,0.25)",
+    icon: "⬡",
+    color: "#8b5cf6", // Electric Violet
+    bg: "rgba(139, 92, 246, 0.08)",
+    border: "rgba(139, 92, 246, 0.35)",
     skills: [
-      { name: "Node.js",    level: 72 },
-      { name: "REST APIs",  level: 78 },
-      { name: "MongoDB",    level: 65 },
-      { name: "PostgreSQL", level: 60 },
+      { name: "Node.js",    level: 85 },
+      { name: "REST / tRPC",level: 88 },
+      { name: "PostgreSQL", level: 80 },
+      { name: "Prisma / ORM", level: 82 },
+    ],
+  },
+  {
+    id: "ai",
+    label: "AI / ML",
+    icon: "🔮",
+    color: "#06b6d4", // Cyber Cyan
+    bg: "rgba(6, 182, 212, 0.08)",
+    border: "rgba(6, 182, 212, 0.35)",
+    skills: [
+      { name: "Python",        level: 84 },
+      { name: "LangChain / AI", level: 78 },
+      { name: "PyTorch",       level: 72 },
+      { name: "OpenAI / Anthropic APIs", level: 90 },
+    ],
+  },
+  {
+    id: "design",
+    label: "UI/UX",
+    icon: "✨",
+    color: "#f59e0b", // Amber Gold
+    bg: "rgba(245, 158, 11, 0.08)",
+    border: "rgba(245, 158, 11, 0.35)",
+    skills: [
+      { name: "Figma",         level: 90 },
+      { name: "Design Systems",level: 86 },
+      { name: "Wireframing",   level: 84 },
+      { name: "Accessibility", level: 88 },
     ],
   },
   {
     id: "tools",
-    label: "Tools",
-    icon: "◎",
-    color: "#a06070",
-    bg: "rgba(160,96,112,0.08)",
-    border: "rgba(160,96,112,0.25)",
+    label: "DevOps & Tools",
+    icon: "⌨️",
+    color: "#10b981", // Terminal Mint
+    bg: "rgba(16, 185, 129, 0.08)",
+    border: "rgba(16, 185, 129, 0.35)",
     skills: [
-      { name: "Git / GitHub", level: 88 },
-      { name: "VS Code",      level: 95 },
-      { name: "Vercel",       level: 82 },
-      { name: "Docker",       level: 55 },
+      { name: "Git / GitHub", level: 92 },
+      { name: "VS Code",      level: 98 },
+      { name: "Docker",       level: 70 },
+      { name: "Vercel / Cloud", level: 88 },
     ],
   },
   {
     id: "motion",
-    label: "Motion",
-    icon: "◉",
-    color: "#c0607a",
-    bg: "rgba(192,96,122,0.08)",
-    border: "rgba(192,96,122,0.25)",
+    label: "Creative Motion",
+    icon: "🚀",
+    color: "#3b82f6", // Cobalt Blue
+    bg: "rgba(59, 130, 246, 0.08)",
+    border: "rgba(59, 130, 246, 0.35)",
     skills: [
-      { name: "Framer Motion", level: 78 },
-      { name: "GSAP",          level: 65 },
-      { name: "Lottie",        level: 60 },
-      { name: "CSS Keyframes", level: 88 },
+      { name: "Framer Motion", level: 88 },
+      { name: "Three.js / 3D", level: 74 },
+      { name: "CSS Keyframes", level: 94 },
+      { name: "Micro-Interactions", level: 90 },
     ],
   },
 ];
 
-// Spider web: 6 nodes evenly on a circle, center = 220,220, r=155
+// Spider web math: 6 nodes arranged circularly
 const WEB_CX = 220;
 const WEB_CY = 215;
-const WEB_R  = 148;
+const WEB_R  = 145;
 
 const nodes = skillCategories.map((cat, i) => {
   const angle = (2 * Math.PI * i) / skillCategories.length - Math.PI / 2;
@@ -104,7 +104,7 @@ const nodes = skillCategories.map((cat, i) => {
   };
 });
 
-// All pairs
+// All connections between categories
 const connections: [string, string][] = [];
 for (let i = 0; i < skillCategories.length; i++) {
   for (let j = i + 1; j < skillCategories.length; j++) {
@@ -112,14 +112,15 @@ for (let i = 0; i < skillCategories.length; i++) {
   }
 }
 
-function getNode(id: string) { return nodes.find((n) => n.id === id)!; }
+function getNode(id: string) {
+  return nodes.find((n) => n.id === id)!;
+}
 
-// Spider ring levels
 const RINGS = [0.25, 0.5, 0.75, 1.0];
 
 export default function Skills() {
-  const [visible,  setVisible]  = useState(false);
-  const [active,   setActive]   = useState<string | null>(null);
+  const [visible, setVisible] = useState(false);
+  const [active, setActive] = useState<string | null>("frontend");
   const [animated, setAnimated] = useState<Set<string>>(new Set());
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
@@ -127,7 +128,7 @@ export default function Skills() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) setVisible(true); },
-      { threshold: 0.12 }
+      { threshold: 0.1 }
     );
     if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
@@ -139,24 +140,13 @@ export default function Skills() {
       cat.skills.forEach((_, si) => {
         setTimeout(() => {
           setAnimated((prev) => new Set(prev).add(`${cat.id}-${si}`));
-        }, 400 + ci * 120 + si * 70);
+        }, 300 + ci * 100 + si * 60);
       });
     });
   }, [visible]);
 
   const activeCategory = skillCategories.find((c) => c.id === active);
 
-  // Build spider polygon for a category's skill levels
-  function spiderPolygon(cat: typeof skillCategories[0]) {
-    const pts = cat.skills.map((sk, si) => {
-      const angle = (2 * Math.PI * si) / cat.skills.length - Math.PI / 2;
-      const r = (sk.level / 100) * 60;
-      return `${80 + r * Math.cos(angle)},${80 + r * Math.sin(angle)}`;
-    });
-    return pts.join(" ");
-  }
-
-  // Ring polygon for spider chart axes
   function ringPolygon(fraction: number) {
     return nodes.map((n) => {
       const dx = n.cx - WEB_CX;
@@ -166,564 +156,348 @@ export default function Skills() {
   }
 
   return (
-    <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+    <section
+      id="skills"
+      ref={sectionRef}
+      className="relative bg-[#f8f7f4] text-[#121214] px-4 sm:px-8 md:px-14 py-20 md:py-28 overflow-hidden font-['Outfit',sans-serif] border-t border-[#121214]/8"
+    >
+      {/* Background Dot Matrix Pattern */}
+      <div 
+        className="absolute inset-0 opacity-[0.4] pointer-events-none"
+        style={{
+          backgroundImage: "radial-gradient(#121214 0.8px, transparent 0.8px)",
+          backgroundSize: "28px 28px"
+        }}
+      />
 
-        .skills-section {
-          position: relative;
-          padding: 120px 24px 100px;
-          overflow: hidden;
-          background: linear-gradient(160deg, #fff5f7 0%, #fdf6f0 45%, #fff0f4 100%);
-        }
+      {/* Subtle Ambient Color Blobs */}
+      <div className="absolute -top-12 -right-12 w-96 h-96 bg-[#ec4899]/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-10 -left-12 w-96 h-96 bg-[#8b5cf6]/10 rounded-full blur-3xl pointer-events-none" />
 
-        .skills-blob {
-          position: absolute;
-          border-radius: 50%;
-          filter: blur(70px);
-          pointer-events: none;
-        }
-
-        .skills-inner {
-          max-width: 1200px;
-          margin: 0 auto;
-          position: relative;
-          z-index: 10;
-        }
-
-        /* ── Header ── */
-        .skills-eyebrow {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          font-family: 'DM Sans', sans-serif;
-          font-size: 11px;
-          font-weight: 500;
-          letter-spacing: 0.18em;
-          text-transform: uppercase;
-          color: #c0445c;
-          margin-bottom: 14px;
-          opacity: 0;
-          transform: translateY(10px);
-          transition: opacity 0.6s 0.1s both, transform 0.6s 0.1s both;
-        }
-        .skills-eyebrow.vis { opacity: 1; transform: translateY(0); }
-        .eyebrow-line { width: 28px; height: 1px; background: #c0445c; }
-
-        .skills-heading {
-          font-family: 'Cormorant Garamond', serif;
-          font-size: clamp(36px, 5vw, 60px);
-          font-weight: 600;
-          color: #2e1420;
-          letter-spacing: -0.02em;
-          line-height: 1.08;
-          margin-bottom: 10px;
-          opacity: 0;
-          transform: translateY(14px);
-          transition: opacity 0.7s 0.2s both, transform 0.7s 0.2s both;
-        }
-        .skills-heading.vis { opacity: 1; transform: translateY(0); }
-        .skills-heading em { font-style: italic; color: #c0445c; }
-
-        .skills-sub {
-          font-family: 'DM Sans', sans-serif;
-          font-size: 15px;
-          font-weight: 300;
-          color: #9a6070;
-          margin-bottom: 64px;
-          opacity: 0;
-          transition: opacity 0.6s 0.35s both;
-        }
-        .skills-sub.vis { opacity: 1; }
-
-        /* ── Layout ── */
-        .skills-layout {
-          display: grid;
-          grid-template-columns: 1fr 480px;
-          gap: 52px;
-          align-items: start;
-        }
-
-        /* ── Cards ── */
-        .skills-cards {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 18px;
-        }
-
-        .skill-card {
-          background: rgba(255,250,252,0.72);
-          backdrop-filter: blur(12px);
-          border-radius: 20px;
-          padding: 24px 20px;
-          border: 1px solid rgba(244,184,200,0.2);
-          box-shadow: 0 4px 24px rgba(192,68,92,0.05);
-          opacity: 0;
-          transform: translateY(20px);
-          transition:
-            opacity 0.6s both,
-            transform 0.6s both,
-            box-shadow 0.25s ease,
-            border-color 0.25s ease,
-            background 0.25s ease;
-          cursor: pointer;
-        }
-        .skill-card.vis   { opacity: 1; transform: translateY(0); }
-        .skill-card:hover { box-shadow: 0 8px 32px rgba(192,68,92,0.11); border-color: rgba(192,68,92,0.22); }
-        .skill-card.act   {
-          box-shadow: 0 8px 36px rgba(192,68,92,0.15);
-          background: rgba(255,250,252,0.95);
-        }
-
-        .card-header {
-          display: flex;
-          align-items: center;
-          gap: 9px;
-          margin-bottom: 18px;
-        }
-        .card-icon  { font-size: 18px; line-height: 1; }
-        .card-title {
-          font-family: 'Cormorant Garamond', serif;
-          font-size: 19px;
-          font-weight: 600;
-          color: #2e1420;
-        }
-
-        .skill-bar-row   { margin-bottom: 11px; }
-        .skill-bar-top   { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; }
-        .skill-name      { font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 400; color: #7a4858; }
-        .skill-pct       { font-family: 'DM Sans', sans-serif; font-size: 10.5px; font-weight: 300; color: #b07080; }
-        .bar-track       { height: 3.5px; background: rgba(192,68,92,0.1); border-radius: 99px; overflow: hidden; }
-        .bar-fill        { height: 100%; border-radius: 99px; width: 0%; transition: width 0.9s cubic-bezier(0.4,0,0.2,1); }
-
-        /* ── Spider web panel ── */
-        .web-panel {
-          position: sticky;
-          top: 96px;
-          opacity: 0;
-          transform: translateX(24px);
-          transition: opacity 0.8s 0.45s both, transform 0.8s 0.45s both;
-        }
-        .web-panel.vis { opacity: 1; transform: translateX(0); }
-
-        .web-label {
-          font-family: 'DM Sans', sans-serif;
-          font-size: 11px;
-          letter-spacing: 0.14em;
-          text-transform: uppercase;
-          color: #c0748a;
-          margin-bottom: 14px;
-          font-weight: 400;
-        }
-
-        .web-svg-wrap {
-          background: rgba(255,250,252,0.62);
-          backdrop-filter: blur(18px);
-          border: 1px solid rgba(244,184,200,0.22);
-          border-radius: 24px;
-          padding: 20px 16px;
-          box-shadow: 0 8px 44px rgba(192,68,92,0.07);
-        }
-
-        /* Spider ring */
-        .spider-ring {
-          fill: none;
-          stroke: rgba(192,68,92,0.12);
-          stroke-width: 1;
-          stroke-dasharray: 4 3;
-          transition: stroke 0.25s;
-        }
-        .spider-axis {
-          stroke: rgba(192,68,92,0.14);
-          stroke-width: 1;
-        }
-
-        /* Web connections */
-        .web-conn {
-          stroke: rgba(192,68,92,0.12);
-          stroke-width: 1;
-          stroke-dasharray: 5 4;
-          transition: stroke 0.25s, stroke-width 0.25s, stroke-dasharray 0.25s;
-        }
-        .web-conn.hot {
-          stroke: rgba(192,68,92,0.5);
-          stroke-width: 1.8;
-          stroke-dasharray: none;
-        }
-        .web-conn.dim {
-          stroke: rgba(192,68,92,0.05);
-          stroke-dasharray: 5 4;
-        }
-
-        /* Nodes */
-        .web-node { cursor: pointer; }
-        .web-node:hover { filter: drop-shadow(0 0 7px rgba(192,68,92,0.3)); }
-
-        /* Detail panel */
-        .active-detail {
-          margin-top: 18px;
-          background: rgba(255,250,252,0.78);
-          border: 1px solid rgba(192,68,92,0.16);
-          border-radius: 16px;
-          padding: 18px 20px;
-          animation: slideUp 0.3s ease both;
-        }
-        @keyframes slideUp {
-          from { opacity: 0; transform: translateY(8px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        .detail-title {
-          font-family: 'Cormorant Garamond', serif;
-          font-size: 18px;
-          font-weight: 600;
-          color: #2e1420;
-          margin-bottom: 12px;
-          display: flex;
-          align-items: center;
-          gap: 8px;
-        }
-        .detail-pills { display: flex; flex-wrap: wrap; gap: 7px; }
-        .detail-pill {
-          font-family: 'DM Sans', sans-serif;
-          font-size: 12px;
-          color: #b03555;
-          background: rgba(192,68,92,0.08);
-          border: 1px solid rgba(192,68,92,0.16);
-          padding: 4px 13px;
-          border-radius: 999px;
-        }
-
-        /* Mini spider chart inside detail */
-        .mini-spider-wrap {
-          margin-bottom: 14px;
-        }
-
-        /* Responsive */
-        @media (max-width: 960px) {
-          .skills-layout { grid-template-columns: 1fr; }
-          .web-panel { position: static; order: -1; }
-        }
-        @media (max-width: 540px) {
-          .skills-cards   { grid-template-columns: 1fr; }
-          .skills-section { padding: 80px 18px 80px; }
-          .skills-layout  { gap: 32px; }
-        }
-      `}</style>
-
-      <section id="skills" className="skills-section" ref={sectionRef}>
-        {/* Blobs */}
-        <div className="skills-blob" style={{
-          width: 440, height: 440, top: "-8%", right: "-4%",
-          background: "radial-gradient(circle, rgba(244,184,200,0.22) 0%, transparent 70%)",
-        }} />
-        <div className="skills-blob" style={{
-          width: 320, height: 320, bottom: "5%", left: "-4%",
-          background: "radial-gradient(circle, rgba(255,220,200,0.18) 0%, transparent 70%)",
-        }} />
-        <div className="skills-blob" style={{
-          width: 200, height: 200, top: "45%", left: "35%",
-          background: "radial-gradient(circle, rgba(255,192,210,0.14) 0%, transparent 70%)",
-        }} />
-
-        <div className="skills-inner">
-          {/* Header */}
-          <div className={`skills-eyebrow ${visible ? "vis" : ""}`}>
-            <span className="eyebrow-line" /> Expertise
+      <div className="max-w-6xl mx-auto relative z-10">
+        
+        {/* ── Section Header ── */}
+        <div className="text-center md:text-left mb-12 sm:mb-16">
+          <div className="inline-flex items-center gap-2 bg-white/90 border border-[#121214]/10 px-3.5 py-1.5 rounded-full mb-4 shadow-sm">
+            <span className="w-2 h-2 rounded-full bg-[#ec4899] animate-ping" />
+            <span className="font-mono text-xs font-semibold text-[#121214] uppercase tracking-wider">
+              ✦ Neural Skill Radar
+            </span>
           </div>
-          <h2 className={`skills-heading ${visible ? "vis" : ""}`}>
-            My <em>spider</em> web of skills
-          </h2>
-          <p className={`skills-sub ${visible ? "vis" : ""}`}>
-            Click any node or card to explore — connections light up across the web
-          </p>
 
-          <div className="skills-layout">
-            {/* ── Left: cards ── */}
-            <div className="skills-cards">
-              {skillCategories.map((cat, ci) => (
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#121214] leading-[1.15] mb-3">
+            Full-Stack <span className="bg-gradient-to-r from-[#ec4899] via-[#8b5cf6] to-[#06b6d4] bg-clip-text text-transparent">Spider Web</span> of Skills.
+          </h2>
+
+          <p className="text-sm sm:text-base text-[#52525b] max-w-xl mx-auto md:mx-0 font-normal">
+            Hover over or tap any node on the radar to inspect my proficiency, interconnected tools, and full-stack stack coverage.
+          </p>
+        </div>
+
+        {/* ── Main Layout: Cards & Radar ── */}
+        <div className="grid lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+          
+          {/* ── Left: Skill Category Cards (7 Cols) ── */}
+          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {skillCategories.map((cat) => {
+              const isSelected = active === cat.id;
+              const isHovered = hoveredNode === cat.id;
+
+              return (
                 <div
                   key={cat.id}
-                  className={`skill-card ${visible ? "vis" : ""} ${active === cat.id ? "act" : ""}`}
-                  style={{
-                    transitionDelay: `${0.28 + ci * 0.1}s`,
-                    borderColor: active === cat.id ? cat.border : undefined,
-                  }}
-                  onClick={() => setActive(active === cat.id ? null : cat.id)}
+                  onClick={() => setActive(cat.id)}
                   onMouseEnter={() => setHoveredNode(cat.id)}
                   onMouseLeave={() => setHoveredNode(null)}
+                  className={`relative p-5 rounded-2xl border transition-all duration-300 cursor-pointer ${
+                    isSelected
+                      ? "bg-white shadow-[0_12px_30px_-5px_rgba(18,18,20,0.1)] border-l-4"
+                      : "bg-white/70 hover:bg-white border-[#121214]/10 hover:border-[#121214]/20 shadow-sm"
+                  }`}
+                  style={{
+                    borderLeftColor: isSelected ? cat.color : undefined,
+                  }}
                 >
-                  <div className="card-header">
-                    <span className="card-icon" style={{ color: cat.color }}>{cat.icon}</span>
-                    <span className="card-title">{cat.label}</span>
-                  </div>
-                  {cat.skills.map((sk, si) => (
-                    <div key={sk.name} className="skill-bar-row">
-                      <div className="skill-bar-top">
-                        <span className="skill-name">{sk.name}</span>
-                        <span className="skill-pct">{sk.level}%</span>
-                      </div>
-                      <div className="bar-track">
-                        <div
-                          className="bar-fill"
-                          style={{
-                            width: animated.has(`${cat.id}-${si}`) ? `${sk.level}%` : "0%",
-                            background: `linear-gradient(90deg, ${cat.color}77, ${cat.color})`,
-                          }}
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </div>
-
-            {/* ── Right: spider web ── */}
-            <div className={`web-panel ${visible ? "vis" : ""}`}>
-              <p className="web-label">Skill spider web — tap any node</p>
-
-              <div className="web-svg-wrap">
-                <svg
-                  viewBox="0 0 440 430"
-                  width="100%"
-                  style={{ display: "block" }}
-                  aria-label="Skill spider web diagram"
-                >
-                  <defs>
-                    {skillCategories.map((cat) => (
-                      <radialGradient key={cat.id} id={`ng-${cat.id}`} cx="40%" cy="35%" r="60%">
-                        <stop offset="0%"   stopColor="#fff5f7" />
-                        <stop offset="100%" stopColor={cat.color} stopOpacity="0.25" />
-                      </radialGradient>
-                    ))}
-                    {/* Glow filter */}
-                    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
-                      <feGaussianBlur stdDeviation="3" result="blur" />
-                      <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-                    </filter>
-                  </defs>
-
-                  {/* ── Spider rings ── */}
-                  {RINGS.map((f) => (
-                    <polygon
-                      key={f}
-                      className="spider-ring"
-                      points={ringPolygon(f)}
-                    />
-                  ))}
-
-                  {/* ── Axis lines (center → each node) ── */}
-                  {nodes.map((n) => (
-                    <line
-                      key={n.id}
-                      className="spider-axis"
-                      x1={WEB_CX} y1={WEB_CY}
-                      x2={n.cx}   y2={n.cy}
-                    />
-                  ))}
-
-                  {/* ── Web connections ── */}
-                  {connections.map(([a, b]) => {
-                    const na = getNode(a);
-                    const nb = getNode(b);
-                    const highlight = hoveredNode || active;
-                    const isHot = highlight && (highlight === a || highlight === b);
-                    const isDim = highlight && !isHot;
-                    return (
-                      <line
-                        key={`${a}-${b}`}
-                        className={`web-conn ${isHot ? "hot" : ""} ${isDim ? "dim" : ""}`}
-                        x1={na.cx} y1={na.cy}
-                        x2={nb.cx} y2={nb.cy}
-                      />
-                    );
-                  })}
-
-                  {/* ── Active fill polygon ── */}
-                  {activeCategory && (() => {
-                    const n = getNode(activeCategory.id);
-                    const angle = n.angle;
-                    const neighbors = connections
-                      .filter(([a, b]) => a === activeCategory.id || b === activeCategory.id)
-                      .map(([a, b]) => (a === activeCategory.id ? b : a));
-                    const pts = [
-                      `${n.cx},${n.cy}`,
-                      ...neighbors.map((nid) => {
-                        const nn = getNode(nid);
-                        // midpoint between active node and neighbor
-                        return `${(n.cx + nn.cx) / 2},${(n.cy + nn.cy) / 2}`;
-                      }),
-                    ].join(" ");
-                    return (
-                      <polygon
-                        points={pts}
-                        fill={activeCategory.color}
-                        fillOpacity="0.07"
-                        stroke={activeCategory.color}
-                        strokeOpacity="0.2"
-                        strokeWidth="1"
-                      />
-                    );
-                  })()}
-
-                  {/* ── Ring level labels ── */}
-                  {RINGS.map((f, i) => (
-                    <text
-                      key={f}
-                      x={WEB_CX + 4}
-                      y={WEB_CY - WEB_R * f - 4}
-                      fontSize="9"
-                      fontFamily="'DM Sans', sans-serif"
-                      fill="rgba(160,96,112,0.45)"
-                      textAnchor="middle"
-                    >
-                      {[25, 50, 75, 100][i]}%
-                    </text>
-                  ))}
-
-                  {/* ── Center dot ── */}
-                  <circle cx={WEB_CX} cy={WEB_CY} r={3} fill="rgba(192,68,92,0.3)" />
-
-                  {/* ── Nodes ── */}
-                  {skillCategories.map((cat) => {
-                    const n     = getNode(cat.id);
-                    const isAct = active === cat.id;
-                    const isHov = hoveredNode === cat.id;
-                    const lit   = isAct || isHov;
-
-                    // Label offset: push label away from center
-                    const dx = n.cx - WEB_CX;
-                    const dy = n.cy - WEB_CY;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    const labelX = n.cx + (dx / dist) * 22;
-                    const labelY = n.cy + (dy / dist) * 22;
-
-                    return (
-                      <g
-                        key={cat.id}
-                        className="web-node"
-                        onClick={() => setActive(active === cat.id ? null : cat.id)}
-                        onMouseEnter={() => setHoveredNode(cat.id)}
-                        onMouseLeave={() => setHoveredNode(null)}
-                        filter={lit ? "url(#glow)" : undefined}
-                        role="button"
-                        aria-label={cat.label}
+                  {/* Category Header */}
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-2.5">
+                      <span
+                        className="w-8 h-8 rounded-xl flex items-center justify-center text-sm shadow-inner"
+                        style={{ background: cat.bg, color: cat.color }}
                       >
-                        {/* Outer halo */}
-                        <circle
-                          cx={n.cx} cy={n.cy}
-                          r={lit ? 34 : 26}
-                          fill="none"
-                          stroke={cat.color}
-                          strokeWidth={lit ? 1.5 : 0.8}
-                          opacity={lit ? 0.3 : 0.12}
-                          style={{ transition: "r 0.35s ease, opacity 0.3s" }}
-                        />
-                        {/* Mid ring (active only) */}
-                        {isAct && (
-                          <circle
-                            cx={n.cx} cy={n.cy} r={26}
-                            fill="none"
-                            stroke={cat.color}
-                            strokeWidth={1}
-                            opacity={0.2}
-                          />
-                        )}
-                        {/* Node body */}
-                        <circle
-                          cx={n.cx} cy={n.cy}
-                          r={lit ? 20 : 16}
-                          fill={`url(#ng-${cat.id})`}
-                          stroke={cat.color}
-                          strokeWidth={lit ? 1.5 : 1}
-                          opacity={lit ? 1 : 0.7}
-                          style={{ transition: "r 0.3s ease, opacity 0.3s" }}
-                        />
-                        {/* Icon */}
-                        <text
-                          x={n.cx} y={n.cy + 1}
-                          textAnchor="middle"
-                          dominantBaseline="middle"
-                          fontSize="13"
-                          fill={cat.color}
-                          style={{ userSelect: "none", pointerEvents: "none" }}
-                        >
-                          {cat.icon}
-                        </text>
-                        {/* Label — pushed outward */}
-                        <text
-                          x={labelX}
-                          y={labelY + (n.cy > WEB_CY + 20 ? 18 : n.cy < WEB_CY - 20 ? -18 : 0)}
-                          textAnchor="middle"
-                          dominantBaseline="middle"
-                          fontSize="11"
-                          fontFamily="'DM Sans', sans-serif"
-                          fontWeight={lit ? "500" : "400"}
-                          fill={lit ? cat.color : "#9a6070"}
-                          style={{ transition: "fill 0.2s", userSelect: "none", pointerEvents: "none" }}
-                        >
-                          {cat.label}
-                        </text>
-                      </g>
-                    );
-                  })}
-
-                  {/* Center hint */}
-                  {!active && !hoveredNode && (
-                    <text
-                      x={WEB_CX} y={WEB_CY + 1}
-                      textAnchor="middle"
-                      dominantBaseline="middle"
-                      fontSize="10"
-                      fontFamily="'DM Sans', sans-serif"
-                      fill="rgba(160,96,112,0.4)"
-                      style={{ userSelect: "none", pointerEvents: "none" }}
-                    >
-                      tap node
-                    </text>
-                  )}
-                </svg>
-              </div>
-
-              {/* Detail panel */}
-              {activeCategory && (
-                <div className="active-detail">
-                  <div className="detail-title">
-                    <span style={{ color: activeCategory.color }}>{activeCategory.icon}</span>
-                    {activeCategory.label}
+                        {cat.icon}
+                      </span>
+                      <h3 className="font-semibold text-sm text-[#121214]">{cat.label}</h3>
+                    </div>
+                    {isSelected && (
+                      <span className="font-mono text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-md bg-[#121214] text-white">
+                        Active
+                      </span>
+                    )}
                   </div>
 
-                  {/* Mini bar chart inside detail */}
-                  <div className="mini-spider-wrap">
-                    {activeCategory.skills.map((sk, si) => (
-                      <div key={sk.name} className="skill-bar-row">
-                        <div className="skill-bar-top">
-                          <span className="skill-name">{sk.name}</span>
-                          <span className="skill-pct">{sk.level}%</span>
+                  {/* Skill Progress Bars */}
+                  <div className="space-y-3">
+                    {cat.skills.map((sk, si) => (
+                      <div key={sk.name}>
+                        <div className="flex justify-between items-center text-xs mb-1 font-mono">
+                          <span className="text-[#3f3f46]">{sk.name}</span>
+                          <span className="text-[#71717a]">{sk.level}%</span>
                         </div>
-                        <div className="bar-track">
+                        <div className="h-1.5 w-full bg-[#121214]/6 rounded-full overflow-hidden">
                           <div
-                            className="bar-fill"
+                            className="h-full rounded-full transition-all duration-1000 ease-out"
                             style={{
-                              width: `${sk.level}%`,
-                              background: `linear-gradient(90deg, ${activeCategory.color}77, ${activeCategory.color})`,
+                              width: animated.has(`${cat.id}-${si}`) ? `${sk.level}%` : "0%",
+                              background: `linear-gradient(90deg, ${cat.color}99, ${cat.color})`,
                             }}
                           />
                         </div>
                       </div>
                     ))}
                   </div>
+                </div>
+              );
+            })}
+          </div>
 
-                  <div className="detail-pills">
-                    {activeCategory.skills.map((sk) => (
-                      <span key={sk.name} className="detail-pill">{sk.name}</span>
+          {/* ── Right: Interactive Radar Spider Web (5 Cols) ── */}
+          <div className="lg:col-span-5 lg:sticky lg:top-24">
+            <div className="bg-white/80 backdrop-blur-md border border-[#121214]/10 rounded-3xl p-5 sm:p-7 shadow-[0_16px_40px_-10px_rgba(18,18,20,0.08)]">
+              
+              {/* Radar Header / Status */}
+              <div className="flex items-center justify-between pb-4 border-b border-[#121214]/8 mb-4">
+                <div className="flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#10b981] animate-pulse" />
+                  <span className="font-mono text-xs font-semibold text-[#121214]">radar.matrix()</span>
+                </div>
+                <span className="font-mono text-[11px] text-[#71717a]">
+                  tap node to link
+                </span>
+              </div>
+
+              {/* Spider Web SVG */}
+              <div className="relative w-full max-w-[400px] mx-auto select-none">
+                <svg
+                  viewBox="0 0 440 430"
+                  className="w-full h-auto overflow-visible"
+                  aria-label="Skill Spider Web"
+                >
+                  <defs>
+                    <filter id="radarGlow" x="-30%" y="-30%" width="160%" height="160%">
+                      <feGaussianBlur stdDeviation="4" result="blur" />
+                      <feMerge>
+                        <feMergeNode in="blur" />
+                        <feMergeNode in="SourceGraphic" />
+                      </feMerge>
+                    </filter>
+                  </defs>
+
+                  {/* Ring Grid */}
+                  {RINGS.map((f, idx) => (
+                    <polygon
+                      key={f}
+                      points={ringPolygon(f)}
+                      fill="none"
+                      stroke="rgba(18, 18, 20, 0.08)"
+                      strokeWidth="1"
+                      strokeDasharray={idx === 3 ? "none" : "4 4"}
+                    />
+                  ))}
+
+                  {/* Axis Spokes (Center -> Each Node) */}
+                  {nodes.map((n) => (
+                    <line
+                      key={n.id}
+                      x1={WEB_CX}
+                      y1={WEB_CY}
+                      x2={n.cx}
+                      y2={n.cy}
+                      stroke="rgba(18, 18, 20, 0.1)"
+                      strokeWidth="1"
+                    />
+                  ))}
+
+                  {/* Neural Connection Lines */}
+                  {connections.map(([a, b]) => {
+                    const na = getNode(a);
+                    const nb = getNode(b);
+                    const highlight = hoveredNode || active;
+                    const isHot = highlight && (highlight === a || highlight === b);
+                    const isDim = highlight && !isHot;
+
+                    return (
+                      <line
+                        key={`${a}-${b}`}
+                        x1={na.cx}
+                        y1={na.cy}
+                        x2={nb.cx}
+                        y2={nb.cy}
+                        stroke={isHot ? (hoveredNode ? getNode(hoveredNode) : activeCategory)?.color || "#ec4899" : "rgba(18, 18, 20, 0.08)"}
+                        strokeWidth={isHot ? 2 : 1}
+                        strokeDasharray={isHot ? "none" : "4 4"}
+                        opacity={isDim ? 0.25 : 1}
+                        className="transition-all duration-300"
+                        filter={isHot ? "url(#radarGlow)" : undefined}
+                      />
+                    );
+                  })}
+
+                  {/* Active Highlight Coverage Polygon */}
+                  {activeCategory && (() => {
+                    const n = getNode(activeCategory.id);
+                    const neighbors = connections
+                      .filter(([a, b]) => a === activeCategory.id || b === activeCategory.id)
+                      .map(([a, b]) => (a === activeCategory.id ? b : a));
+
+                    const pts = [
+                      `${n.cx},${n.cy}`,
+                      ...neighbors.map((nid) => {
+                        const nn = getNode(nid);
+                        return `${(n.cx + nn.cx) / 2},${(n.cy + nn.cy) / 2}`;
+                      }),
+                    ].join(" ");
+
+                    return (
+                      <polygon
+                        points={pts}
+                        fill={activeCategory.color}
+                        fillOpacity="0.12"
+                        stroke={activeCategory.color}
+                        strokeWidth="1.5"
+                        className="transition-all duration-500"
+                      />
+                    );
+                  })()}
+
+                  {/* Ring Percentage Markers */}
+                  {RINGS.map((f, i) => (
+                    <text
+                      key={f}
+                      x={WEB_CX}
+                      y={WEB_CY - WEB_R * f - 4}
+                      fontSize="9"
+                      fontFamily="'JetBrains Mono', monospace"
+                      fill="#a1a1aa"
+                      textAnchor="middle"
+                    >
+                      {[25, 50, 75, 100][i]}%
+                    </text>
+                  ))}
+
+                  {/* Center Hub */}
+                  <circle cx={WEB_CX} cy={WEB_CY} r={4} fill="#121214" opacity="0.3" />
+
+                  {/* Interactive Outer Nodes */}
+                  {skillCategories.map((cat) => {
+                    const n = getNode(cat.id);
+                    const isAct = active === cat.id;
+                    const isHov = hoveredNode === cat.id;
+                    const lit = isAct || isHov;
+
+                    const dx = n.cx - WEB_CX;
+                    const dy = n.cy - WEB_CY;
+                    const dist = Math.hypot(dx, dy);
+                    const labelX = n.cx + (dx / dist) * 22;
+                    const labelY = n.cy + (dy / dist) * 22;
+
+                    return (
+                      <g
+                        key={cat.id}
+                        className="cursor-pointer"
+                        onClick={() => setActive(cat.id)}
+                        onMouseEnter={() => setHoveredNode(cat.id)}
+                        onMouseLeave={() => setHoveredNode(null)}
+                      >
+                        {/* Outer Glow Pulse when Active */}
+                        {lit && (
+                          <circle
+                            cx={n.cx}
+                            cy={n.cy}
+                            r={32}
+                            fill="none"
+                            stroke={cat.color}
+                            strokeWidth="1.5"
+                            opacity="0.3"
+                            filter="url(#radarGlow)"
+                            className="animate-ping"
+                            style={{ animationDuration: "2.5s" }}
+                          />
+                        )}
+
+                        {/* Node Halo Circle */}
+                        <circle
+                          cx={n.cx}
+                          cy={n.cy}
+                          r={lit ? 24 : 18}
+                          fill="white"
+                          stroke={cat.color}
+                          strokeWidth={lit ? 2.5 : 1.5}
+                          className="transition-all duration-300"
+                          filter={lit ? "url(#radarGlow)" : undefined}
+                        />
+
+                        {/* Node Icon Emoji */}
+                        <text
+                          x={n.cx}
+                          y={n.cy + 1}
+                          textAnchor="middle"
+                          dominantBaseline="middle"
+                          fontSize={lit ? "14" : "12"}
+                          style={{ pointerEvents: "none", userSelect: "none" }}
+                        >
+                          {cat.icon}
+                        </text>
+
+                        {/* Node Outer Text Label */}
+                        <text
+                          x={labelX}
+                          y={labelY + (n.cy > WEB_CY + 20 ? 14 : n.cy < WEB_CY - 20 ? -14 : 0)}
+                          textAnchor="middle"
+                          dominantBaseline="middle"
+                          fontSize="11.5"
+                          fontFamily="'Outfit', sans-serif"
+                          fontWeight={lit ? "700" : "500"}
+                          fill={lit ? cat.color : "#52525b"}
+                          className="transition-colors duration-200"
+                          style={{ pointerEvents: "none", userSelect: "none" }}
+                        >
+                          {cat.label}
+                        </text>
+                      </g>
+                    );
+                  })}
+                </svg>
+              </div>
+
+              {/* Active Category Detail Pill Box */}
+              {activeCategory && (
+                <div className="mt-5 pt-4 border-t border-[#121214]/8 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="text-base">{activeCategory.icon}</span>
+                    <span className="font-semibold text-sm text-[#121214]">
+                      {activeCategory.label} Core
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5 justify-end">
+                    {activeCategory.skills.slice(0, 3).map((sk) => (
+                      <span
+                        key={sk.name}
+                        className="font-mono text-[10px] px-2 py-0.5 rounded-md bg-[#121214]/5 text-[#3f3f46]"
+                      >
+                        {sk.name}
+                      </span>
                     ))}
                   </div>
                 </div>
               )}
+
             </div>
           </div>
+
         </div>
-      </section>
-    </>
+
+      </div>
+    </section>
   );
 }
