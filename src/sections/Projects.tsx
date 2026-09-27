@@ -11,8 +11,11 @@ interface Project {
   stack: string[];
   gradient: string;
   accent: string;
-  demoUrl: string;
-  githubUrl: string;
+
+  // Optional so projects without links don't break the build
+  demoUrl?: string;
+  githubUrl?: string;
+
   featured?: boolean;
 }
 
@@ -157,12 +160,15 @@ export default function Projects() {
   const [selectedCategory, setSelectedCategory] =
     useState<string>("All");
 
-  // Magnetic 3D tilt handler
+  /* ---------------------------------------------------------------------- */
+  /* Magnetic 3D tilt handler                                               */
+  /* ---------------------------------------------------------------------- */
+
   const handleTilt = (
     e: React.MouseEvent<HTMLDivElement>
   ) => {
-    const el = e.currentTarget;
-    const rect = el.getBoundingClientRect();
+    const element = e.currentTarget;
+    const rect = element.getBoundingClientRect();
 
     const x =
       (e.clientX - rect.left) / rect.width - 0.5;
@@ -170,7 +176,7 @@ export default function Projects() {
     const y =
       (e.clientY - rect.top) / rect.height - 0.5;
 
-    el.style.transform = `
+    element.style.transform = `
       perspective(800px)
       rotateY(${x * 8}deg)
       rotateX(${-y * 8}deg)
@@ -185,6 +191,10 @@ export default function Projects() {
       "perspective(800px) rotateY(0deg) rotateX(0deg) translateY(0px)";
   };
 
+  /* ---------------------------------------------------------------------- */
+  /* Filtering                                                              */
+  /* ---------------------------------------------------------------------- */
+
   const filteredProjects =
     selectedCategory === "All"
       ? projects
@@ -192,6 +202,10 @@ export default function Projects() {
           (project) =>
             project.category === selectedCategory
         );
+
+  /* ---------------------------------------------------------------------- */
+  /* Render                                                                 */
+  /* ---------------------------------------------------------------------- */
 
   return (
     <section
@@ -218,10 +232,11 @@ export default function Projects() {
       </div>
 
       <div className="max-w-6xl mx-auto relative z-10">
+        {/* ---------------------------------------------------------------- */}
+        {/* Section Header                                                    */}
+        {/* ---------------------------------------------------------------- */}
 
-        {/* Section Header */}
         <div className="text-center md:text-left mb-12 sm:mb-16">
-
           <div className="inline-flex items-center gap-2 bg-white border border-[#E4E4E7] px-3.5 py-1.5 rounded-full mb-4 shadow-sm">
             <span className="relative w-2 h-2 rounded-full bg-[#EC4899]">
               <span className="absolute inset-0 rounded-full bg-[#EC4899] animate-ping" />
@@ -233,7 +248,6 @@ export default function Projects() {
           </div>
 
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-
             <div>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#18181B] leading-[1.15]">
                 Curated{" "}
@@ -252,7 +266,6 @@ export default function Projects() {
 
             {/* Category Filters */}
             <div className="flex flex-wrap gap-2">
-
               {categories.map((category) => (
                 <button
                   key={category}
@@ -268,14 +281,15 @@ export default function Projects() {
                   {category}
                 </button>
               ))}
-
             </div>
           </div>
         </div>
 
-        {/* Projects Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
+        {/* ---------------------------------------------------------------- */}
+        {/* Projects Grid                                                     */}
+        {/* ---------------------------------------------------------------- */}
 
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
           {filteredProjects.map((project) => (
             <div
               key={project.id}
@@ -283,12 +297,9 @@ export default function Projects() {
               onMouseLeave={resetTilt}
               className="bg-white border border-[#E4E4E7] rounded-3xl p-6 shadow-sm hover:shadow-[0_18px_40px_-10px_rgba(18,18,20,0.12)] transition-all duration-300 flex flex-col justify-between will-change-transform group"
             >
-
               <div>
-
                 {/* Terminal Header */}
                 <div className="flex items-center justify-between pb-4 border-b border-[#E4E4E7] mb-5">
-
                   <div className="flex items-center gap-1.5">
                     <span className="w-2.5 h-2.5 rounded-full bg-[#F43F5E]" />
                     <span className="w-2.5 h-2.5 rounded-full bg-[#EAB308]" />
@@ -298,16 +309,13 @@ export default function Projects() {
                   <span className="font-mono text-[11px] text-[#71717A]">
                     sys_id: #{project.id}
                   </span>
-
                 </div>
 
                 {/* Project Preview */}
                 <div
                   className={`relative h-44 rounded-2xl bg-gradient-to-br ${project.gradient} border border-[#E4E4E7] p-4 flex flex-col justify-between overflow-hidden mb-5`}
                 >
-
                   <div className="flex justify-between items-start">
-
                     <span
                       className="font-mono text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-lg bg-white shadow-sm"
                       style={{
@@ -323,14 +331,11 @@ export default function Projects() {
                         Top Project
                       </span>
                     )}
-
                   </div>
 
                   {/* Stats */}
                   <div className="bg-white/90 backdrop-blur-sm border border-[#E4E4E7] rounded-xl p-2.5 shadow-sm">
-
                     <div className="font-mono text-[11px] text-[#18181B] font-medium flex items-center gap-1.5">
-
                       <span
                         className="w-1.5 h-1.5 rounded-full"
                         style={{
@@ -339,9 +344,7 @@ export default function Projects() {
                       />
 
                       {project.stats}
-
                     </div>
-
                   </div>
                 </div>
 
@@ -354,14 +357,11 @@ export default function Projects() {
                 <p className="text-sm text-[#52525B] leading-relaxed mb-6 font-normal">
                   {project.description}
                 </p>
-
               </div>
 
               <div>
-
                 {/* Tech Stack */}
                 <div className="flex flex-wrap gap-1.5 mb-6">
-
                   {project.stack.map((tech) => (
                     <span
                       key={tech}
@@ -370,12 +370,10 @@ export default function Projects() {
                       {tech}
                     </span>
                   ))}
-
                 </div>
 
                 {/* Action Links */}
                 <div className="flex items-center gap-3 pt-4 border-t border-[#E4E4E7]">
-
                   {project.demoUrl ? (
                     <a
                       href={project.demoUrl}
@@ -406,18 +404,17 @@ export default function Projects() {
                       Code Soon
                     </span>
                   )}
-
                 </div>
               </div>
-
             </div>
           ))}
-
         </div>
 
-        {/* Bottom Callout */}
-        <div className="mt-14 p-6 sm:p-8 rounded-3xl bg-white border border-[#E4E4E7] backdrop-blur-md flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left shadow-sm">
+        {/* ---------------------------------------------------------------- */}
+        {/* Bottom Callout                                                    */}
+        {/* ---------------------------------------------------------------- */}
 
+        <div className="mt-14 p-6 sm:p-8 rounded-3xl bg-white border border-[#E4E4E7] backdrop-blur-md flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left shadow-sm">
           <div>
             <div className="font-bold text-lg text-[#18181B]">
               Have an innovative project in mind?
@@ -438,9 +435,7 @@ export default function Projects() {
             <span>View All Repositories on GitHub</span>
             <span>→</span>
           </a>
-
         </div>
-
       </div>
     </section>
   );
