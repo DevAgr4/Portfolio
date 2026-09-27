@@ -108,27 +108,6 @@ const projects: Project[] = [
 
   {
     id: "05",
-    title: "Aura FashionTech",
-    category: "Full-Stack",
-    description:
-      "High-fashion digital commerce platform featuring real-time 3D interactive garment inspection, headless CMS, and instant Stripe checkout.",
-    stats: "3D Product Viewer · Headless Architecture",
-    stack: [
-      "Next.js 15",
-      "Three.js",
-      "Stripe API",
-      "Sanity CMS",
-      "Tailwind",
-    ],
-    gradient:
-      "from-[#ec4899]/15 via-[#f59e0b]/15 to-transparent",
-    accent: "#ec4899",
-    demoUrl: "",
-    githubUrl: "",
-  },
-
-  {
-    id: "06",
     title: "Synapse Graph",
     category: "DevTools",
     description:
