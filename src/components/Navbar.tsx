@@ -5,8 +5,10 @@ import { useEffect, useRef, useState } from "react";
 const navLinks = [
   { label: "Home", href: "#home" },
   { label: "About", href: "#about" },
+  { label: "Skills", href: "#skills" },
   { label: "Projects", href: "#projects" },
   { label: "Experience", href: "#experience" },
+  { label: "Contact", href: "#contact" },
 ];
 
 const socials = [
@@ -21,7 +23,7 @@ const socials = [
   {
     label: "GitHub",
     href: "https://github.com/DevAgr4",
-    color: "#141414",
+    color: "#24292f",
     icon: (
       <path d="M12 2a10 10 0 00-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.64-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.4 9.4 0 015 0c1.9-1.29 2.74-1.02 2.74-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0012 2z" />
     ),
@@ -58,10 +60,9 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [indicator, setIndicator] = useState({ left: 0, width: 0, opacity: 0 });
 
-  const listRef = useRef<HTMLUListElement>(null);
   const itemRefs = useRef<Array<HTMLLIElement | null>>([]);
 
-  // ── Scroll: shrink + glassify the bar ──
+  // ── Scroll: shrink + stronger glass ──
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 12);
     onScroll();
@@ -69,7 +70,27 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // ── Sliding indicator: track the active link ──
+  // ── Scroll-spy: highlight the link of the section you are viewing ──
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const link = navLinks.find((l) => l.href === `#${entry.target.id}`);
+            if (link) setActive(link.label);
+          }
+        });
+      },
+      { rootMargin: "-40% 0px -55% 0px" }
+    );
+    navLinks.forEach((l) => {
+      const el = document.querySelector(l.href);
+      if (el) observer.observe(el);
+    });
+    return () => observer.disconnect();
+  }, []);
+
+  // ── Sliding pink pill: follows hover, rests on the active link ──
   const measure = (label: string) => {
     const idx = navLinks.findIndex((l) => l.label === label);
     const el = itemRefs.current[idx];
@@ -84,7 +105,14 @@ export default function Navbar() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [active]);
 
-  // ── Generic 3D tilt (logo + social icons) ──
+  // ── Close mobile menu with Escape ──
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setMenuOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  // ── 3D magnetic tilt (logo + social icons) ──
   const handleTilt = (e: React.MouseEvent<HTMLElement>, max = 14, lift = 1.12) => {
     const el = e.currentTarget;
     const rect = el.getBoundingClientRect();
@@ -99,17 +127,22 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
-        isScrolled
-          ? "bg-[#f7f7f5]/80 backdrop-blur-md shadow-[0_1px_0_rgba(20,20,20,0.06)] py-3"
-          : "bg-[#f7f7f5] py-7"
+      className={`fixed left-0 w-full z-50 px-3 sm:px-4 transition-all duration-500 ${
+        isScrolled ? "top-2" : "top-3 sm:top-4"
       }`}
     >
-      <nav className="max-w-6xl mx-auto px-6 md:px-14 flex items-center justify-between">
-        {/* ── Left: nav links with sliding indicator ── */}
-        <ul ref={listRef} className="hidden md:flex relative items-center gap-8 text-sm text-[#141414]">
+      {/* ── Floating pill ── */}
+      <nav
+        className={`max-w-6xl mx-auto flex items-center justify-between lg:grid lg:grid-cols-[1fr_auto_1fr] rounded-full border border-[#e83e8c]/20 px-3 sm:px-5 transition-all duration-500 ${
+          isScrolled
+            ? "py-1.5 bg-white/80 backdrop-blur-md shadow-[0_10px_35px_rgba(232,62,140,0.18)]"
+            : "py-2.5 bg-white/95 shadow-[0_6px_24px_rgba(232,62,140,0.10)]"
+        }`}
+      >
+        {/* Left: links (large screens) */}
+        <ul className="hidden lg:flex relative items-center gap-1 text-sm justify-self-start">
           <span
-            className="absolute -bottom-1 h-[2px] bg-[#141414] rounded-full transition-all duration-300 ease-[cubic-bezier(.4,0,.2,1)]"
+            className="absolute top-0 h-full rounded-full bg-[#e83e8c]/10 border border-[#e83e8c]/20 transition-all duration-300 ease-[cubic-bezier(.4,0,.2,1)] pointer-events-none"
             style={{ left: indicator.left, width: indicator.width, opacity: indicator.opacity }}
           />
           {navLinks.map((link, i) => (
@@ -120,12 +153,16 @@ export default function Navbar() {
               }}
               onMouseEnter={() => measure(link.label)}
               onMouseLeave={() => measure(active)}
+              className="relative z-10"
             >
               <a
                 href={link.href}
                 onClick={() => setActive(link.label)}
-                className="pb-1 inline-block transition-all duration-200 hover:-translate-y-0.5"
-                style={{ transformStyle: "preserve-3d" }}
+                className={`block px-4 py-2 rounded-full transition-colors duration-200 ${
+                  active === link.label
+                    ? "text-[#e83e8c] font-medium"
+                    : "text-[#7a6572] hover:text-[#2a1a26]"
+                }`}
               >
                 {link.label}
               </a>
@@ -133,19 +170,26 @@ export default function Navbar() {
           ))}
         </ul>
 
-        {/* ── Center: logo, 3D magnetic tilt ── */}
+        {/* Center: logo (circle only on large screens, circle + name on smaller) */}
         <a
           href="#home"
-          onMouseMove={(e) => handleTilt(e, 16, 1.1)}
+          onClick={() => setActive("Home")}
+          aria-label="Devisha Agrawal, home"
+          onMouseMove={(e) => handleTilt(e, 16, 1.08)}
           onMouseLeave={resetTilt}
-          className="relative w-11 h-11 rounded-full bg-[#141414] text-white flex items-center justify-center text-sm font-semibold shrink-0 transition-transform duration-200 ease-out shadow-[0_6px_18px_rgba(20,20,20,0.25)] will-change-transform"
+          className="flex items-center gap-2.5 shrink-0 transition-transform duration-200 ease-out will-change-transform"
           style={{ transformStyle: "preserve-3d" }}
         >
-          CB
+          <span className="w-10 h-10 rounded-full bg-gradient-to-br from-[#e83e8c] to-[#ff7ab8] text-white flex items-center justify-center text-sm font-bold shadow-[0_6px_18px_rgba(232,62,140,0.4)]">
+            DA
+          </span>
+          <span className="lg:hidden text-sm sm:text-base font-bold text-[#2a1a26]">
+            Devisha<span className="text-[#e83e8c]"> Agrawal</span>
+          </span>
         </a>
 
-        {/* ── Right: socials, magnetic tilt + color reveal ── */}
-        <ul className="hidden md:flex items-center gap-4">
+        {/* Right: social icons (large screens) */}
+        <ul className="hidden lg:flex items-center gap-2.5 justify-self-end">
           {socials.map((s) => (
             <li key={s.label}>
               <a
@@ -155,7 +199,7 @@ export default function Navbar() {
                 aria-label={s.label}
                 onMouseMove={(e) => handleTilt(e, 20, 1.15)}
                 onMouseLeave={resetTilt}
-                className="group relative w-8 h-8 rounded-full flex items-center justify-center bg-[#141414] transition-[box-shadow] duration-300 ease-out will-change-transform overflow-hidden"
+                className="group relative w-9 h-9 rounded-full flex items-center justify-center bg-white border border-[#e83e8c]/25 shadow-sm overflow-hidden transition-[box-shadow] duration-300 ease-out will-change-transform hover:shadow-[0_8px_18px_rgba(232,62,140,0.25)]"
                 style={{ transformStyle: "preserve-3d" }}
               >
                 <span
@@ -163,11 +207,11 @@ export default function Navbar() {
                   style={{ backgroundColor: s.color }}
                 />
                 <svg
-                  width="15"
-                  height="15"
+                  width="16"
+                  height="16"
                   viewBox="0 0 24 24"
-                  fill="white"
-                  className="relative z-10"
+                  fill="currentColor"
+                  className="relative z-10 text-[#e83e8c] group-hover:text-white transition-colors duration-300"
                 >
                   {s.icon}
                 </svg>
@@ -176,77 +220,91 @@ export default function Navbar() {
           ))}
         </ul>
 
-        {/* ── Mobile: hamburger that morphs into an X ── */}
+        {/* Mobile / tablet: hamburger that morphs into an X */}
         <button
           aria-label="Toggle menu"
+          aria-expanded={menuOpen}
           onClick={() => setMenuOpen((v) => !v)}
-          className="md:hidden relative w-9 h-9 flex flex-col items-center justify-center gap-[5px]"
+          className="lg:hidden relative w-10 h-10 rounded-full bg-[#e83e8c]/10 flex flex-col items-center justify-center gap-[5px]"
         >
           <span
-            className={`w-5 h-[1.5px] bg-[#141414] transition-all duration-300 ${
+            className={`w-5 h-[1.5px] bg-[#e83e8c] transition-all duration-300 ${
               menuOpen ? "rotate-45 translate-y-[6.5px]" : ""
             }`}
           />
           <span
-            className={`w-5 h-[1.5px] bg-[#141414] transition-all duration-300 ${
+            className={`w-5 h-[1.5px] bg-[#e83e8c] transition-all duration-300 ${
               menuOpen ? "opacity-0" : "opacity-100"
             }`}
           />
           <span
-            className={`w-5 h-[1.5px] bg-[#141414] transition-all duration-300 ${
+            className={`w-5 h-[1.5px] bg-[#e83e8c] transition-all duration-300 ${
               menuOpen ? "-rotate-45 -translate-y-[6.5px]" : ""
             }`}
           />
         </button>
       </nav>
 
-      {/* ── Mobile menu panel ── */}
+      {/* ── Mobile / tablet menu panel ── */}
       <div
-        className={`md:hidden overflow-hidden transition-all duration-400 ease-[cubic-bezier(.4,0,.2,1)] ${
-          menuOpen ? "max-h-80 opacity-100 mt-6" : "max-h-0 opacity-0"
+        className={`lg:hidden max-w-6xl mx-auto overflow-hidden transition-all duration-500 ease-[cubic-bezier(.4,0,.2,1)] ${
+          menuOpen ? "max-h-[30rem] opacity-100 mt-2" : "max-h-0 opacity-0"
         }`}
       >
-        <ul className="flex flex-col items-center gap-5 pb-6">
-          {navLinks.map((link, i) => (
-            <li
-              key={link.label}
-              className="transition-all duration-300"
-              style={{
-                transitionDelay: menuOpen ? `${i * 60}ms` : "0ms",
-                transform: menuOpen ? "translateY(0)" : "translateY(-8px)",
-                opacity: menuOpen ? 1 : 0,
-              }}
-            >
-              <a
-                href={link.href}
-                onClick={() => {
-                  setActive(link.label);
-                  setMenuOpen(false);
+        <div className="rounded-3xl bg-white/95 backdrop-blur-md border border-[#e83e8c]/20 shadow-[0_16px_40px_rgba(232,62,140,0.18)] p-4">
+          <ul className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            {navLinks.map((link, i) => (
+              <li
+                key={link.label}
+                className="transition-all duration-300"
+                style={{
+                  transitionDelay: menuOpen ? `${i * 50}ms` : "0ms",
+                  transform: menuOpen ? "translateY(0)" : "translateY(-8px)",
+                  opacity: menuOpen ? 1 : 0,
                 }}
-                className={`text-base ${active === link.label ? "text-[#141414] font-medium" : "text-[#141414]/70"}`}
               >
-                {link.label}
-              </a>
-            </li>
-          ))}
-          <li className="flex items-center gap-4 pt-2">
-            {socials.map((s) => (
-              <a
-                key={s.label}
-                href={s.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={s.label}
-                className="w-8 h-8 rounded-full flex items-center justify-center"
-                style={{ backgroundColor: s.color }}
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="white">
-                  {s.icon}
-                </svg>
-              </a>
+                <a
+                  href={link.href}
+                  onClick={() => {
+                    setActive(link.label);
+                    setMenuOpen(false);
+                  }}
+                  className={`block text-center px-4 py-2.5 rounded-2xl text-sm transition-colors ${
+                    active === link.label
+                      ? "bg-gradient-to-r from-[#e83e8c] to-[#ff7ab8] text-white font-medium shadow-[0_6px_16px_rgba(232,62,140,0.3)]"
+                      : "bg-[#e83e8c]/5 text-[#2a1a26] hover:bg-[#e83e8c]/10"
+                  }`}
+                >
+                  {link.label}
+                </a>
+              </li>
             ))}
-          </li>
-        </ul>
+          </ul>
+
+          <div className="mt-4 pt-4 border-t border-[#e83e8c]/15">
+            <p className="text-center font-mono text-[11px] text-[#7a6572] mb-3">
+              find me on
+            </p>
+            <ul className="flex items-center justify-center gap-3 flex-wrap">
+              {socials.map((s) => (
+                <li key={s.label}>
+                  <a
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={s.label}
+                    className="w-10 h-10 rounded-full flex items-center justify-center shadow-md transition-transform active:scale-95 hover:-translate-y-0.5"
+                    style={{ backgroundColor: s.color }}
+                  >
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="white">
+                      {s.icon}
+                    </svg>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
       </div>
     </header>
   );
