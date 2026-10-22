@@ -2,9 +2,12 @@
 
 import { useEffect, useState } from "react";
 
+/* -------------------------------------------------------------------------- */
+/* Data                                                                        */
+/* -------------------------------------------------------------------------- */
+
 interface Certificate {
   id: string;
-  pageNo: string;
   title: string;
   issuer: string;
   year: string;
@@ -18,7 +21,6 @@ interface Certificate {
 const certificates: Certificate[] = [
   {
     id: "01",
-    pageNo: "01",
     title: "Geodata Processing using Python and Machine Learning",
     issuer: "ISRO / IIRS",
     year: "2025",
@@ -30,7 +32,6 @@ const certificates: Certificate[] = [
   },
   {
     id: "02",
-    pageNo: "02",
     title: "Data Processing and Visualisation",
     issuer: "NASSCOM",
     year: "2026",
@@ -42,7 +43,6 @@ const certificates: Certificate[] = [
   },
   {
     id: "03",
-    pageNo: "03",
     title: "Software Engineering Fundamentals",
     issuer: "Infosys / Springboard",
     year: "2026",
@@ -54,7 +54,6 @@ const certificates: Certificate[] = [
   },
   {
     id: "04",
-    pageNo: "04",
     title: "Data Science for Beginners",
     issuer: "Board Infinity",
     year: "2026",
@@ -66,7 +65,6 @@ const certificates: Certificate[] = [
   },
   {
     id: "05",
-    pageNo: "05",
     title: "GuideWire DEVTrails Hackathon",
     issuer: "Guidewire Hackathon",
     year: "2026",
@@ -78,7 +76,6 @@ const certificates: Certificate[] = [
   },
   {
     id: "06",
-    pageNo: "06",
     title: "Demystifying Networking",
     issuer: "NPTEL • IIT",
     year: "2025",
@@ -90,7 +87,6 @@ const certificates: Certificate[] = [
   },
   {
     id: "07",
-    pageNo: "07",
     title: "MongoDB Skill Badge Suite",
     issuer: "MongoDB",
     year: "2026",
@@ -102,7 +98,6 @@ const certificates: Certificate[] = [
   },
   {
     id: "08",
-    pageNo: "08",
     title: "Cybersecurity Essentials",
     issuer: "Cisco Networking Academy",
     year: "2024",
@@ -114,7 +109,6 @@ const certificates: Certificate[] = [
   },
   {
     id: "09",
-    pageNo: "09",
     title: "Deep Learning for Computer Vision",
     issuer: "Coursera",
     year: "2026",
@@ -126,6 +120,22 @@ const certificates: Certificate[] = [
   },
 ];
 
+/* -------------------------------------------------------------------------- */
+/* Neumorphic tokens (same as Projects)                                        */
+/* -------------------------------------------------------------------------- */
+
+const BASE = "#F4E9EF";
+const raised = "shadow-[9px_9px_20px_#D8C3CF,-9px_-9px_20px_#FFFFFF]";
+const raisedSm = "shadow-[5px_5px_11px_#D8C3CF,-5px_-5px_11px_#FFFFFF]";
+const inset = "shadow-[inset_6px_6px_13px_#D8C3CF,inset_-6px_-6px_13px_#FFFFFF]";
+const insetSm = "shadow-[inset_3px_3px_7px_#D8C3CF,inset_-3px_-3px_7px_#FFFFFF]";
+const focusRing =
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B4456A] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F4E9EF]";
+
+/* -------------------------------------------------------------------------- */
+/* Component                                                                   */
+/* -------------------------------------------------------------------------- */
+
 export default function Certificates() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [copied, setCopied] = useState(false);
@@ -133,360 +143,246 @@ export default function Certificates() {
 
   const active = certificates[activeIndex];
 
-  const handleNext = () => {
-    setActiveIndex((prev) => (prev + 1) % certificates.length);
-  };
-
-  const handlePrev = () => {
-    setActiveIndex(
-      (prev) => (prev - 1 + certificates.length) % certificates.length
-    );
-  };
+  const next = () => setActiveIndex((i) => (i + 1) % certificates.length);
+  const prev = () =>
+    setActiveIndex((i) => (i - 1 + certificates.length) % certificates.length);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight") handleNext();
-      if (e.key === "ArrowLeft") handlePrev();
+      if (e.key === "ArrowRight") next();
+      if (e.key === "ArrowLeft") prev();
     };
-
     window.addEventListener("keydown", onKey);
-
-    return () => {
-      window.removeEventListener("keydown", onKey);
-    };
+    return () => window.removeEventListener("keydown", onKey);
   }, []);
 
   const copyId = () => {
     if (typeof navigator !== "undefined" && navigator.clipboard) {
-      navigator.clipboard
-        .writeText(active.credentialId)
-        .catch(() => {});
+      navigator.clipboard.writeText(active.credentialId).catch(() => {});
     }
-
     setCopied(true);
-
-    setTimeout(() => {
-      setCopied(false);
-    }, 1600);
+    setTimeout(() => setCopied(false), 1600);
   };
 
   return (
     <section
       id="certificates"
-      className="relative bg-[#FAFAF9] text-[#18181B] px-4 sm:px-8 md:px-12 py-20 md:py-28 overflow-hidden"
+      className="relative overflow-hidden px-4 py-16 sm:px-8 sm:py-20 md:px-14 md:py-28 text-[#4A2C40]"
+      style={{ background: BASE, fontFamily: "'DM Sans', sans-serif" }}
     >
-      {/* Soft background decoration */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-32 left-1/4 w-80 h-80 bg-[#EC4899]/5 blur-[90px] rounded-full" />
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,500&display=swap');
+        .c-serif { font-family: 'Fraunces', serif; }
+        @keyframes c-swap { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+        .c-swap { animation: c-swap .4s ease both; }
+        .c-hide-scroll { scrollbar-width: none; }
+        .c-hide-scroll::-webkit-scrollbar { display: none; }
+        .c-clamp2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        @media (prefers-reduced-motion: reduce) { .c-swap { animation: none; } }
+      `}</style>
 
-        <div className="absolute top-1/3 right-0 w-96 h-96 bg-[#8B5CF6]/5 blur-[100px] rounded-full" />
-
-        <div className="absolute bottom-0 left-0 w-72 h-72 bg-[#0284C7]/5 blur-[90px] rounded-full" />
-      </div>
-
-      <div className="max-w-6xl mx-auto relative z-10">
-
-        {/* Section Header */}
-        <div className="text-center mb-12 sm:mb-16">
-
-          <div className="inline-flex items-center gap-2 bg-white border border-[#E4E4E7] px-3.5 py-1.5 rounded-full mb-4 shadow-sm">
-            <span className="relative w-2 h-2 rounded-full bg-emerald-500">
-              <span className="absolute inset-0 rounded-full bg-emerald-500 animate-ping" />
-            </span>
-
-            <span className="font-mono text-xs font-semibold uppercase tracking-wider text-[#52525B]">
-              Verified Credentials
-            </span>
-          </div>
-
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight leading-[1.15]">
-            Academic &amp; Professional{" "}
-            <span className="bg-gradient-to-r from-[#EC4899] via-[#8B5CF6] to-[#0284C7] bg-clip-text text-transparent">
-              Credentials
-            </span>
-            .
+      <div className="relative mx-auto max-w-6xl">
+        {/* Header */}
+        <header className="mb-10 text-center md:mb-14">
+          <h2 className="c-serif text-4xl leading-[1.1] sm:text-5xl md:text-6xl">
+            Things I&rsquo;ve <em className="text-[#B4456A]">learned</em>
           </h2>
-
-          <p className="mt-3 text-sm sm:text-base text-[#71717A] max-w-lg mx-auto leading-relaxed">
-            {certificates.length} certifications spanning data, software
-            engineering, machine learning, and technology.
+          <p className="mx-auto mt-4 max-w-md text-base leading-relaxed text-[#7A5B6E]">
+            {certificates.length} certifications across data, software engineering, machine
+            learning and networking.
           </p>
-        </div>
+        </header>
 
-        {/* Main Certificate Area */}
-        <div className="grid lg:grid-cols-[1fr_300px] gap-6 items-start">
-
-          {/* Spotlight Card */}
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-10">
+          {/* Spotlight */}
           <div
-            onTouchStart={(e) => {
-              setTouchStart(e.touches[0].clientX);
-            }}
+            onTouchStart={(e) => setTouchStart(e.touches[0].clientX)}
             onTouchEnd={(e) => {
               if (touchStart === null) return;
-
-              const diff =
-                touchStart - e.changedTouches[0].clientX;
-
-              if (diff > 45) handleNext();
-              if (diff < -45) handlePrev();
-
+              const diff = touchStart - e.changedTouches[0].clientX;
+              if (diff > 45) next();
+              if (diff < -45) prev();
               setTouchStart(null);
             }}
-            className="relative rounded-[28px] bg-white border border-[#E4E4E7] shadow-[0_25px_60px_-30px_rgba(24,24,27,0.25)] p-7 sm:p-10 overflow-hidden min-h-[420px] flex flex-col"
+            id="certificate-panel"
+            role="tabpanel"
+            aria-labelledby={`cert-tab-${active.id}`}
+            className={`relative rounded-[36px] p-5 sm:p-8 ${raised}`}
+            style={{ background: BASE }}
           >
-
-            {/* Accent Glow */}
-            <div
-              key={`glow-${active.id}`}
-              className="absolute -top-28 -right-24 w-80 h-80 rounded-full blur-[75px] opacity-20 transition-all duration-500"
-              style={{
-                background: active.accent,
-              }}
-            />
-
-            {/* Verified Badge */}
-            <div className="absolute top-6 right-6 sm:top-7 sm:right-7 flex flex-col items-center z-10">
-
+            <div key={active.id} className="c-swap flex h-full flex-col">
+              {/* Certificate plate */}
               <div
-                key={`seal-${active.id}`}
-                className="w-11 h-11 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-white text-sm font-bold shadow-md"
+                className={`relative rounded-[28px] p-6 sm:p-8 ${inset}`}
                 style={{
-                  background: `radial-gradient(circle at 35% 30%, ${active.sealColor}, ${active.accent})`,
+                  background: `linear-gradient(145deg, ${active.accent}1f, ${BASE})`,
                 }}
               >
-                ✓
-              </div>
-
-              <span className="text-[9px] font-mono text-[#A1A1AA] mt-1 uppercase tracking-wide">
-                Verified
-              </span>
-            </div>
-
-            <div
-              key={active.id}
-              className="relative z-10 flex-1 flex flex-col justify-between animate-[certFade_0.45s_ease]"
-            >
-
-              {/* Certificate Information */}
-              <div>
+                {/* Seal */}
+                <div className="absolute right-5 top-5 flex flex-col items-center sm:right-7 sm:top-7">
+                  <span
+                    className={`flex h-12 w-12 items-center justify-center rounded-full text-lg font-bold text-white sm:h-14 sm:w-14 ${raisedSm}`}
+                    style={{
+                      background: `radial-gradient(circle at 35% 30%, ${active.sealColor}, ${active.accent})`,
+                    }}
+                    aria-hidden
+                  >
+                    ✓
+                  </span>
+                  <span className="mt-1.5 text-xs font-medium text-[#7A5B6E]">Verified</span>
+                </div>
 
                 {/* Issuer */}
-                <div className="flex items-center gap-3 mb-5 pr-16">
-
+                <div className="flex items-center gap-3 pr-20 sm:pr-24">
                   <span
-                    className="w-11 h-11 rounded-xl flex items-center justify-center text-white font-bold text-lg shrink-0 shadow-sm"
-                    style={{
-                      background: active.accent,
-                    }}
+                    className={`c-serif flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-xl ${raisedSm}`}
+                    style={{ background: BASE, color: active.accent }}
+                    aria-hidden
                   >
                     {active.issuer.charAt(0)}
                   </span>
-
-                  <div>
-                    <div className="text-sm font-semibold text-[#18181B]">
-                      {active.issuer}
-                    </div>
-
-                    <div className="text-xs text-[#71717A] font-mono mt-0.5">
-                      {active.year}
-                    </div>
+                  <div className="min-w-0">
+                    <p className="truncate text-base font-semibold">{active.issuer}</p>
+                    <p className="text-sm text-[#7A5B6E]">{active.year}</p>
                   </div>
-
                 </div>
 
                 {/* Title */}
-                <h3 className="text-xl sm:text-2xl md:text-[1.75rem] font-bold leading-snug max-w-xl text-[#18181B]">
+                <h3 className="c-serif mt-6 max-w-xl text-2xl leading-snug sm:text-3xl md:text-4xl">
                   {active.title}
                 </h3>
-
-                {/* Skills */}
-                <div className="flex flex-wrap gap-2 mt-5">
-                  {active.skills.map((skill) => (
-                    <span
-                      key={skill}
-                      className="text-xs font-medium px-3 py-1 rounded-full border"
-                      style={{
-                        borderColor: `${active.accent}35`,
-                        color: active.accent,
-                        background: `${active.accent}0a`,
-                      }}
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-
               </div>
 
-              {/* Bottom Actions */}
-              <div className="flex items-center justify-between gap-4 flex-wrap mt-8 pt-6 border-t border-[#E4E4E7]">
+              {/* Skills */}
+              <div className="mt-7">
+                <p className="mb-3 text-sm font-semibold text-[#7A5B6E]">Skills covered</p>
+                <ul className="flex flex-wrap gap-2.5">
+                  {active.skills.map((skill) => (
+                    <li
+                      key={skill}
+                      className={`rounded-full px-4 py-1.5 text-sm ${raisedSm}`}
+                      style={{ background: BASE, color: active.accent }}
+                    >
+                      {skill}
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-                {/* Credential ID */}
+              {/* Actions */}
+              <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <button
                   onClick={copyId}
-                  className="font-mono text-xs text-[#71717A] hover:text-[#18181B] transition-colors flex items-center gap-2 min-w-0"
+                  aria-label={`Copy credential ID ${active.credentialId}`}
+                  className={`flex min-w-0 items-center justify-between gap-3 rounded-full px-5 py-3 text-left text-sm text-[#6A4C5F] ${insetSm} ${focusRing}`}
+                  style={{ background: BASE }}
                 >
-                  <span className="truncate max-w-[180px] sm:max-w-none">
-                    ID: {active.credentialId}
-                  </span>
-
+                  <span className="truncate">ID: {active.credentialId}</span>
                   <span
-                    className={`text-[10px] font-semibold ${
-                      copied
-                        ? "text-emerald-600"
-                        : "text-[#A1A1AA]"
-                    }`}
+                    className="shrink-0 text-xs font-semibold"
+                    style={{ color: copied ? "#2f8f6f" : "#B4456A" }}
+                    aria-live="polite"
                   >
-                    {copied ? "Copied ✓" : "Copy"}
+                    {copied ? "Copied" : "Copy"}
                   </span>
                 </button>
 
-                {/* PDF Button */}
                 <a
                   href={active.pdfSrc}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-sm font-medium px-5 py-2.5 rounded-full text-white transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
+                  className={`rounded-full px-7 py-3.5 text-center text-sm font-semibold text-white transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0 motion-reduce:transition-none ${focusRing}`}
                   style={{
-                    background: active.accent,
+                    background: `linear-gradient(135deg, ${active.accent}, #B4456A)`,
+                    boxShadow: "6px 6px 14px #D8C3CF, -6px -6px 14px #FFFFFF",
                   }}
                 >
-                  View Certificate
-                  <span>↗</span>
+                  View certificate
                 </a>
-
               </div>
             </div>
           </div>
 
-          {/* Certificate Selector */}
-          <div className="flex lg:flex-col gap-3 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0 lg:max-h-[420px] lg:pr-1 lg:overflow-y-auto scrollbar-thin">
-
-            {certificates.map((certificate, index) => {
-
+          {/* Selector */}
+          <div
+            role="tablist"
+            aria-label="Certificates"
+            aria-orientation="vertical"
+            className="c-hide-scroll -mx-4 flex gap-4 overflow-x-auto px-4 py-3 sm:-mx-8 sm:px-8 lg:mx-0 lg:max-h-[600px] lg:flex-col lg:gap-4 lg:overflow-x-visible lg:overflow-y-auto lg:p-3"
+          >
+            {certificates.map((c, index) => {
               const isActive = index === activeIndex;
-
               return (
                 <button
-                  key={certificate.id}
+                  key={c.id}
+                  role="tab"
+                  id={`cert-tab-${c.id}`}
+                  aria-selected={isActive}
+                  aria-controls="certificate-panel"
                   onClick={() => setActiveIndex(index)}
-                  className={`shrink-0 lg:shrink w-[220px] lg:w-full text-left rounded-2xl border p-3.5 transition-all duration-200 ${
-                    isActive
-                      ? "bg-white shadow-md"
-                      : "bg-white/70 border-[#E4E4E7] hover:bg-white hover:-translate-y-0.5 hover:shadow-sm"
+                  className={`flex w-[250px] shrink-0 items-center gap-3.5 rounded-[24px] px-4 py-3.5 text-left transition-shadow duration-300 motion-reduce:transition-none lg:w-full ${focusRing} ${
+                    isActive ? inset : raised
                   }`}
-                  style={{
-                    borderColor: isActive
-                      ? certificate.accent
-                      : undefined,
-                  }}
+                  style={{ background: BASE }}
                 >
-
-                  <div className="flex items-center gap-2.5">
-
-                    <span
-                      className="w-7 h-7 rounded-lg flex items-center justify-center text-white text-xs font-bold shrink-0"
-                      style={{
-                        background: certificate.accent,
-                      }}
-                    >
-                      {certificate.issuer.charAt(0)}
+                  <span
+                    className={`c-serif flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-base ${
+                      isActive ? raisedSm : insetSm
+                    }`}
+                    style={{ color: c.accent, background: BASE }}
+                    aria-hidden
+                  >
+                    {c.issuer.charAt(0)}
+                  </span>
+                  <span className="min-w-0">
+                    <span className="c-clamp2 text-sm font-semibold leading-snug">{c.title}</span>
+                    <span className="mt-0.5 block truncate text-xs text-[#7A5B6E]">
+                      {c.issuer} · {c.year}
                     </span>
-
-                    <div className="min-w-0">
-
-                      <div className="text-xs font-semibold truncate text-[#18181B]">
-                        {certificate.title}
-                      </div>
-
-                      <div className="text-[10px] text-[#71717A] font-mono truncate mt-0.5">
-                        {certificate.issuer} · {certificate.year}
-                      </div>
-
-                    </div>
-
-                  </div>
+                  </span>
                 </button>
               );
             })}
-
           </div>
         </div>
 
         {/* Navigation */}
-        <div className="flex items-center justify-center gap-4 mt-8">
-
+        <div className="mt-10 flex items-center justify-center gap-5">
           <button
-            onClick={handlePrev}
+            onClick={prev}
             aria-label="Previous certificate"
-            className="w-9 h-9 rounded-full bg-white border border-[#E4E4E7] text-[#18181B] flex items-center justify-center hover:border-[#EC4899] hover:text-[#EC4899] transition-all"
+            className={`flex h-12 w-12 items-center justify-center rounded-full text-[#B4456A] active:shadow-[inset_3px_3px_7px_#D8C3CF,inset_-3px_-3px_7px_#FFFFFF] ${raisedSm} ${focusRing}`}
+            style={{ background: BASE }}
           >
-            ❮
+            <span aria-hidden>❮</span>
           </button>
 
-          {/* Progress */}
-          <div className="flex items-center gap-1.5">
-
-            {certificates.map((certificate, index) => (
+          <div
+            className={`flex items-center gap-1.5 rounded-full px-4 py-3 ${insetSm}`}
+            aria-hidden
+          >
+            {certificates.map((c, index) => (
               <span
-                key={certificate.id}
-                className="h-1.5 rounded-full transition-all duration-300"
+                key={c.id}
+                className="h-1.5 rounded-full transition-all duration-300 motion-reduce:transition-none"
                 style={{
-                  width: index === activeIndex ? 24 : 6,
-                  background:
-                    index === activeIndex
-                      ? active.accent
-                      : "#D4D4D8",
+                  width: index === activeIndex ? 22 : 6,
+                  background: index === activeIndex ? active.accent : "#D2BCC9",
                 }}
               />
             ))}
-
           </div>
 
           <button
-            onClick={handleNext}
+            onClick={next}
             aria-label="Next certificate"
-            className="w-9 h-9 rounded-full bg-white border border-[#E4E4E7] text-[#18181B] flex items-center justify-center hover:border-[#8B5CF6] hover:text-[#8B5CF6] transition-all"
+            className={`flex h-12 w-12 items-center justify-center rounded-full text-[#B4456A] active:shadow-[inset_3px_3px_7px_#D8C3CF,inset_-3px_-3px_7px_#FFFFFF] ${raisedSm} ${focusRing}`}
+            style={{ background: BASE }}
           >
-            ❯
+            <span aria-hidden>❯</span>
           </button>
-
         </div>
-
       </div>
-
-      {/* Animation */}
-      <style jsx global>{`
-        @keyframes certFade {
-          from {
-            opacity: 0;
-            transform: translateY(10px);
-          }
-
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        .scrollbar-thin::-webkit-scrollbar {
-          width: 5px;
-          height: 5px;
-        }
-
-        .scrollbar-thin::-webkit-scrollbar-track {
-          background: transparent;
-        }
-
-        .scrollbar-thin::-webkit-scrollbar-thumb {
-          background: #d4d4d8;
-          border-radius: 999px;
-        }
-
-        .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-          background: #a1a1aa;
-        }
-      `}</style>
     </section>
   );
 }
